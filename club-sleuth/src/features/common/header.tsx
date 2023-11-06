@@ -1,133 +1,125 @@
 import {
   Box,
   Flex,
-  IconButton,
-  Button,
-  Stack,
-  useColorModeValue,
-  useDisclosure,
+  Avatar,
   Text,
+  Button,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuDivider,
+  useColorModeValue,
+  Stack,
+  Center,
 } from '@chakra-ui/react';
-import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import Logo from './logo';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
+import { Link } from 'react-router-dom';
 
 interface HeaderProps {
   city: string;
 }
 
 export default function Header({ city }: HeaderProps) {
-  const { isOpen, onToggle } = useDisclosure();
-
+  const userID = useSelector((state: RootState) => state.user.value);
   return (
-    <Box>
-      <Flex
-        bg={useColorModeValue('black', 'black.800')}
-        color={useColorModeValue('black.600', 'white')}
-        minH={'60px'}
-        py={{ base: 2 }}
-        px={{ base: 4 }}
-        borderBottom={1}
-        borderStyle={'solid'}
-        borderColor={useColorModeValue('gray.200', 'gray.900')}
-        align={'center'}
-      >
-        <Flex
-          flex={{ base: 1, md: 'auto' }}
-          ml={{ base: -2 }}
-          display={{ base: 'flex', md: 'none' }}
-        >
-          <IconButton
-            onClick={onToggle}
-            icon={
-              isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />
-            }
-            variant={'ghost'}
-            aria-label={'Toggle Navigation'}
-          />
-        </Flex>
-        <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
-          <Logo></Logo>
-          <Text color={'white'} mt='auto' mb='auto'>
-            <Stack direction='row'>
-              <Text fontWeight={'medium'}>Searching.... at</Text>
-              <Text fontWeight={'bold'}>{city}</Text>
+    <>
+      <Box bg={useColorModeValue('black', 'black.800')} minH={'100px'} px={4}>
+        <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
+          <Box mt={'auto'}>
+            <Stack direction={'row'}>
+              <Logo></Logo>
+              <Text color={'white'} mt='auto' mb='auto'>
+                <Stack direction='row'>
+                  <Text fontWeight={'medium'}>Searching.... at</Text>
+                  <Text fontWeight={'bold'}>{city}</Text>
+                </Stack>
+              </Text>
             </Stack>
-          </Text>
+          </Box>
 
-          <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
-            {/* TODO: Add Search city */}
-            {/* <DesktopNav /> */}
+          <Flex alignItems={'center'} mt={'auto'}>
+            <Stack direction={'row'} spacing={7}>
+              {/* <Button onClick={toggleColorMode}>
+                {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+              </Button> */}
+              {userID !== '' ? (
+                <Menu>
+                  <MenuButton
+                    as={Button}
+                    rounded={'full'}
+                    variant={'link'}
+                    cursor={'pointer'}
+                    minW={0}
+                  >
+                    <Avatar
+                      size={'sm'}
+                      src={'https://avatars.dicebear.com/api/male/username.svg'}
+                    />
+                  </MenuButton>
+                  <MenuList alignItems={'center'}>
+                    <br />
+                    <Center>
+                      <Avatar
+                        size={'2xl'}
+                        src={
+                          'https://avatars.dicebear.com/api/male/username.svg'
+                        }
+                      />
+                    </Center>
+                    <br />
+                    <Center>
+                      <p>Username</p>
+                    </Center>
+                    <br />
+                    <MenuDivider />
+                    <MenuItem>Your Clubs</MenuItem>
+                    <MenuItem>Account Settings</MenuItem>
+                    <MenuItem>Logout</MenuItem>
+                  </MenuList>
+                </Menu>
+              ) : (
+                <>
+                  <Link to={'/sign-in'}>
+                    <Button
+                      as={'a'}
+                      fontSize={'lg'}
+                      fontWeight={600}
+                      variant={'link'}
+                      color={'white'}
+                      _hover={{
+                        bg: 'blackAlpha',
+                      }}
+                    >
+                      Sign In
+                    </Button>
+                  </Link>
+                  <Link to={'/sign-up'}>
+                    <Button
+                      as={'a'}
+                      display={{ base: 'none', md: 'inline-flex' }}
+                      fontSize={'lg'}
+                      fontWeight={600}
+                      _hover={{
+                        bg: 'blackAlpha',
+                      }}
+                      color={'white'}
+                      backgroundColor={'black'}
+                      borderStyle={'solid'}
+                      borderColor={'white'}
+                      border={'2px'}
+                    >
+                      Sign Up
+                    </Button>
+                  </Link>
+                </>
+              )}
+            </Stack>
           </Flex>
         </Flex>
-
-        <Stack
-          flex={{ base: 1, md: 0 }}
-          justify={'flex-end'}
-          direction={'row'}
-          spacing={6}
-          color={'white'}
-        >
-          <Button
-            as={'a'}
-            fontSize={'lg'}
-            fontWeight={600}
-            variant={'link'}
-            href={'#'}
-            color={'white'}
-          >
-            Sign In
-          </Button>
-          <Button
-            as={'a'}
-            display={{ base: 'none', md: 'inline-flex' }}
-            fontSize={'lg'}
-            fontWeight={600}
-            href={'#'}
-            _hover={{
-              bg: 'white.300',
-            }}
-            colorScheme='white'
-            variant={'outline'}
-          >
-            Sign Up
-          </Button>
-        </Stack>
-      </Flex>
-
-      {/* <Collapse in={isOpen} animateOpacity>
-        <MobileNav />
-      </Collapse> */}
-    </Box>
+      </Box>
+    </>
   );
 }
-
-// const DesktopNav = () => {
-//   const linkColor = useColorModeValue('gray.600', 'gray.200');
-//   const linkHoverColor = useColorModeValue('gray.800', 'white');
-//   const popoverContentBgColor = useColorModeValue('white', 'gray.800');
-
-//   return (
-//     <Stack direction={'row'} spacing={4}>
-//         <Box key={'say'}>
-//           <Popover trigger={'hover'} placement={'bottom-start'}>
-//             <PopoverTrigger>
-//               <Box
-//                 as='a'
-//                 p={2}
-//                 href={'#'}
-//                 fontSize={'sm'}
-//                 fontWeight={500}
-//                 color={linkColor}
-//                 _hover={{
-//                   textDecoration: 'none',
-//                   color: linkHoverColor,
-//                 }}
-//               >
-//                 asd
-//               </Box>
-//             </PopoverTrigger>
-//           </Popover>
-//         </Box>
-//     </Stack>
-//   );
-// };

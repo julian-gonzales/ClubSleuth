@@ -1,13 +1,8 @@
-import {
-  Box,
-  Flex,
-  Button,
-  Stack,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { Box, Flex, Button, Stack, useColorModeValue } from '@chakra-ui/react';
 import BackgroundImage from '../../assets/background-image-flipped.jpg';
 import { AiFillFacebook, AiFillInstagram } from 'react-icons/ai';
 import { RiTwitterXFill } from 'react-icons/ri';
+import { Link } from 'react-router-dom';
 
 export default function WithSubnavigation() {
   // const { isOpen, onToggle } = useDisclosure();
@@ -44,30 +39,37 @@ export default function WithSubnavigation() {
           spacing={6}
           color={'white'}
         >
-          <Button
-            as={'a'}
-            fontSize={'lg'}
-            fontWeight={700}
-            variant={'link'}
-            href={'#'}
-            color={'black'}
-          >
-            Sign In
-          </Button>
-          <Button
-            as={'a'}
-            display={{ base: 'none', md: 'inline-flex' }}
-            fontSize={'lg'}
-            fontWeight={600}
-            href={'#'}
-            _hover={{
-              bg: 'blackAlpha',
-            }}
-            color={'white'}
-            backgroundColor={'black'}
-          >
-            Sign Up
-          </Button>
+          <Link to={'/sign-in'}>
+            <Button
+              as={'a'}
+              fontSize={'lg'}
+              fontWeight={700}
+              background={'transparent'}
+              href={'#'}
+              color={'black'}
+              _hover={{
+                bg: 'transparent',
+              }}
+            >
+              Sign In
+            </Button>
+          </Link>
+          <Link to={'/sign-up'}>
+            <Button
+              as={'a'}
+              display={{ base: 'none', md: 'inline-flex' }}
+              fontSize={'lg'}
+              fontWeight={600}
+              href={'#'}
+              _hover={{
+                bg: 'blackAlpha',
+              }}
+              color={'white'}
+              backgroundColor={'black'}
+            >
+              Sign Up
+            </Button>
+          </Link>
         </Stack>
       </Flex>
     </Box>

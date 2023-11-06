@@ -6,16 +6,16 @@ import {
   InputLeftElement,
   Spacer,
   Text,
-} from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
-import Header from "../features/common/header";
-import { changeWordsToUpperCase } from "../utils/string-utils";
-import { useGetClubsQuery } from "../api/club-slice";
-import { Club } from "../domain/club";
-import { SearchIcon } from "@chakra-ui/icons";
-import ClubDetails from "../features/search-page/club-details";
-import { useMemo, useState } from "react";
-import { FiInbox } from "react-icons/fi";
+} from '@chakra-ui/react';
+import { useParams } from 'react-router-dom';
+import { changeWordsToUpperCase } from '../utils/string-utils';
+import { useGetClubsQuery } from '../api/club-slice';
+import { Club } from '../domain/club';
+import { SearchIcon } from '@chakra-ui/icons';
+import ClubDetails from '../features/search-page/club-details';
+import { useMemo, useState } from 'react';
+import { FiInbox } from 'react-icons/fi';
+import Header from '../features/common/header';
 
 type Params = {
   province: string;
@@ -24,14 +24,14 @@ type Params = {
 
 const SearchPage = () => {
   const { province, city } = useParams<keyof Params>() as Params;
-  const [str, setFilter] = useState(" ");
+  const [str, setFilter] = useState(' ');
   const { data: dbClubs, isLoading: loading } = useGetClubsQuery({
     province,
     city,
   });
   let clubs = dbClubs;
   clubs = useMemo(() => {
-    const re = RegExp(`.*${str.toLowerCase().split("").join(".*")}.*`);
+    const re = RegExp(`.*${str.toLowerCase().split('').join('.*')}.*`);
     if (str.length > 3) {
       return clubs?.filter((club: any) => club.name.toLowerCase().match(re));
     } else {
@@ -46,26 +46,26 @@ const SearchPage = () => {
     <>
       <Header city={`${changeWordsToUpperCase(city)}`}></Header>
       <Flex
-        verticalAlign={"middle"}
-        w={"60%"}
-        m={"auto"}
+        verticalAlign={'middle'}
+        w={'60%'}
+        m={'auto'}
         mt={20}
         visibility={
-          clubs !== undefined && clubs.length > 0 ? "visible" : "hidden"
+          clubs !== undefined && clubs.length > 0 ? 'visible' : 'hidden'
         }
       >
         <InputGroup>
-          <InputLeftElement pointerEvents={"none"}>
+          <InputLeftElement pointerEvents={'none'}>
             <SearchIcon />
           </InputLeftElement>
           <Input
             borderRadius={25}
             border={1}
-            borderStyle={"solid"}
-            backgroundColor={"white"}
-            width={"fit-content"}
-            placeholder="Search by name"
-            w={"400px"}
+            borderStyle={'solid'}
+            backgroundColor={'white'}
+            width={'fit-content'}
+            placeholder='Search by name'
+            w={'400px'}
             mb={3}
             onChange={(e) => {
               handleChange(e);
@@ -82,16 +82,16 @@ const SearchPage = () => {
           Sort By <ChevronDownIcon ml={3} />
         </Button> */}
       </Flex>
-      <Box height={"74vh"} w={"60%"} m={"auto"} overflow={"auto"}>
+      <Box height={'74vh'} w={'60%'} m={'auto'} overflow={'auto'}>
         <Box>
           {!loading && clubs !== undefined && clubs.length > 0 ? (
             clubs.map((club: Club) => (
               <ClubDetails key={club._id} club={club} />
             ))
           ) : (
-            <Box justifyContent={"center"} mt={"28"} textAlign={"center"}>
-              <FiInbox style={{ margin: "auto" }} size={"80px"} />
-              <Text mt={5} fontSize={"20px"}>
+            <Box justifyContent={'center'} mt={'28'} textAlign={'center'}>
+              <FiInbox style={{ margin: 'auto' }} size={'80px'} />
+              <Text mt={5} fontSize={'20px'}>
                 No clubs found in this area
               </Text>
             </Box>
