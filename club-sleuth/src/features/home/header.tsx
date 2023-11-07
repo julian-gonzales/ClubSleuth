@@ -11,13 +11,13 @@ import {
   Center,
   MenuDivider,
   MenuItem,
-} from '@chakra-ui/react';
-import BackgroundImage from '../../assets/background-image-flipped.jpg';
-import { AiFillFacebook, AiFillInstagram } from 'react-icons/ai';
-import { RiTwitterXFill } from 'react-icons/ri';
-import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store';
+} from "@chakra-ui/react";
+import BackgroundImage from "../../assets/background-image-flipped.jpg";
+import { AiFillFacebook, AiFillInstagram } from "react-icons/ai";
+import { RiTwitterXFill } from "react-icons/ri";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 export default function WithSubnavigation() {
   // const { isOpen, onToggle } = useDisclosure();
@@ -26,48 +26,48 @@ export default function WithSubnavigation() {
   return (
     <Box>
       <Flex
-        bg={useColorModeValue('black', 'black.800')}
-        color={useColorModeValue('black.600', 'white')}
-        minH={'60px'}
+        bg={useColorModeValue("black", "black.800")}
+        color={useColorModeValue("black.600", "white")}
+        minH={"60px"}
         py={{ base: 2 }}
         px={{ base: 4 }}
         backgroundImage={BackgroundImage}
-        align={'center'}
-        height={'150px'}
+        align={"center"}
+        height={"150px"}
       >
-        <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
+        <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
           <Stack
-            direction={'row'}
-            spacing={{ base: 'none', md: 5 }}
-            ml={{ base: 'none', md: 10 }}
+            direction={"row"}
+            spacing={{ base: "none", md: 5 }}
+            ml={{ base: "none", md: 10 }}
           >
-            <AiFillFacebook size={'40px'} color='black'></AiFillFacebook>
-            <AiFillInstagram size={'40px'} color='black'></AiFillInstagram>
-            <RiTwitterXFill size={'40px'} color='black'></RiTwitterXFill>
+            <AiFillFacebook size={"40px"} color="black"></AiFillFacebook>
+            <AiFillInstagram size={"40px"} color="black"></AiFillInstagram>
+            <RiTwitterXFill size={"40px"} color="black"></RiTwitterXFill>
           </Stack>
-          <Flex display={{ base: 'none', md: 'flex' }} ml={10}></Flex>
+          <Flex display={{ base: "none", md: "flex" }} ml={10}></Flex>
         </Flex>
 
-        {user._id !== '' ? (
+        {user._id !== "" ? (
           <Menu>
             <MenuButton
               as={Button}
-              rounded={'full'}
-              variant={'link'}
-              cursor={'pointer'}
+              rounded={"full"}
+              variant={"link"}
+              cursor={"pointer"}
               minW={0}
             >
               <Avatar
-                size={'sm'}
-                src={'https://avatars.dicebear.com/api/male/username.svg'}
+                size={"sm"}
+                src={"https://avatars.dicebear.com/api/male/username.svg"}
               />
             </MenuButton>
-            <MenuList alignItems={'center'}>
+            <MenuList alignItems={"center"}>
               <br />
               <Center>
                 <Avatar
-                  size={'2xl'}
-                  src={'https://avatars.dicebear.com/api/male/username.svg'}
+                  size={"2xl"}
+                  src={"https://avatars.dicebear.com/api/male/username.svg"}
                 />
               </Center>
               <br />
@@ -76,7 +76,9 @@ export default function WithSubnavigation() {
               </Center>
               <br />
               <MenuDivider />
-              <MenuItem>Your Clubs</MenuItem>
+              <Link to="/user-clubs">
+                <MenuItem>Your Clubs</MenuItem>
+              </Link>
               <MenuItem>Account Settings</MenuItem>
               <MenuItem>Logout</MenuItem>
             </MenuList>
@@ -84,38 +86,38 @@ export default function WithSubnavigation() {
         ) : (
           <Stack
             flex={{ base: 1, md: 0 }}
-            justify={'flex-end'}
-            direction={'row'}
+            justify={"flex-end"}
+            direction={"row"}
             spacing={6}
-            color={'white'}
+            color={"white"}
           >
-            <Link to={'/sign-in'}>
+            <Link to={"/sign-in"}>
               <Button
-                as={'a'}
-                fontSize={'lg'}
+                as={"a"}
+                fontSize={"lg"}
                 fontWeight={700}
-                background={'transparent'}
-                href={'#'}
-                color={'black'}
+                background={"transparent"}
+                href={"#"}
+                color={"black"}
                 _hover={{
-                  bg: 'transparent',
+                  bg: "transparent",
                 }}
               >
                 Sign In
               </Button>
             </Link>
-            <Link to={'/sign-up'}>
+            <Link to={"/sign-up"}>
               <Button
-                as={'a'}
-                display={{ base: 'none', md: 'inline-flex' }}
-                fontSize={'lg'}
+                as={"a"}
+                display={{ base: "none", md: "inline-flex" }}
+                fontSize={"lg"}
                 fontWeight={600}
-                href={'#'}
+                href={"#"}
                 _hover={{
-                  bg: 'blackAlpha',
+                  bg: "blackAlpha",
                 }}
-                color={'white'}
-                backgroundColor={'black'}
+                color={"white"}
+                backgroundColor={"black"}
               >
                 Sign Up
               </Button>

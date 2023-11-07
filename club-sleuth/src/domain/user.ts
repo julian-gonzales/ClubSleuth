@@ -1,9 +1,9 @@
-import { Clubs } from './club';
+import { Club } from './club';
 
 export type User = {
   _id: string;
   activated: boolean;
-  clubs: Clubs[];
+  clubs: Array<Club>;
   email: string;
   firstName: string;
   lastName: string;

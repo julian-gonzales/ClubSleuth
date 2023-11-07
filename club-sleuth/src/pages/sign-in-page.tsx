@@ -101,7 +101,7 @@ export default function SignInPage() {
                         isRequired
                       >
                         <FormLabel>Password</FormLabel>
-                        <Input {...field} />
+                        <Input type='password' {...field} />
                         <FormErrorMessage>
                           {form.errors.password}
                         </FormErrorMessage>

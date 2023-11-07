@@ -12,6 +12,7 @@ import { store } from './store';
 import theme from './theme';
 import SignInPage from './pages/sign-in-page';
 import SignUpPage from './pages/sign-up-page';
+import UserClubs from './pages/my-club-page';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -27,6 +28,7 @@ root.render(
             <Route path='/clubs/:id' element={<ClubPage />} />
             <Route path='/sign-in' element={<SignInPage />} />
             <Route path='/sign-up' element={<SignUpPage />} />
+            <Route path='/user-clubs' element={<UserClubs />} />
           </Routes>
         </BrowserRouter>
       </ChakraProvider>

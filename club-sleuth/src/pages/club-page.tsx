@@ -3,7 +3,7 @@ import Header from "../features/common/header";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { changeWordsToUpperCase } from "../utils/string-utils";
-import { useGetSingleClubQuery } from "../api/club-slice";
+import { useGetSingleClubQueryQuery } from "../api/club-slice";
 import { Box, Heading, Stack, Text } from "@chakra-ui/react";
 import ClubBadges from "../features/common/club-badges";
 import { FutureEvents, ReoccuringEvents } from "../domain/club";
@@ -13,7 +13,7 @@ import FutureEventsBox from "../features/club-page/future-events";
 const ClubPage = () => {
   const { id } = useParams();
   const city = useSelector((state: RootState) => state.city.value);
-  const { data: club, isLoading: loading } = useGetSingleClubQuery({ id });
+  const { data: club, isLoading: loading } = useGetSingleClubQueryQuery({ id });
 
   return (
     <>
