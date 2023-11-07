@@ -23,7 +23,7 @@ interface HeaderProps {
 }
 
 export default function Header({ city }: HeaderProps) {
-  const userID = useSelector((state: RootState) => state.user.value);
+  const user = useSelector((state: RootState) => state.user.value);
   return (
     <>
       <Box bg={useColorModeValue('black', 'black.800')} minH={'100px'} px={4}>
@@ -45,7 +45,7 @@ export default function Header({ city }: HeaderProps) {
               {/* <Button onClick={toggleColorMode}>
                 {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
               </Button> */}
-              {userID !== '' ? (
+              {user._id !== '' ? (
                 <Menu>
                   <MenuButton
                     as={Button}

@@ -9,12 +9,24 @@ import {
   Button,
   Heading,
   Text,
-  useColorModeValue,
+  FormErrorMessage,
+  Alert,
+  AlertIcon,
+  AlertDescription,
 } from '@chakra-ui/react';
-import { useGetUserQuery } from '../api/user-slice';
-import { User } from '../domain/user';
+import { Field, Form, Formik } from 'formik';
+import { useGetUserByInfoMutation } from '../api/user-slice';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { changeUser } from '../slice/user-slice';
+import { useNavigate } from 'react-router-dom';
+import { emailReg } from '../utils/string-utils';
 
 export default function SignInPage() {
+  const [logIn, { isLoading }] = useGetUserByInfoMutation();
+  const [alertError, setAlertError] = useState('');
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   return (
     <Flex minH={'100vh'} align={'center'} justify={'center'}>
@@ -22,42 +34,106 @@ export default function SignInPage() {
         <Stack align={'center'}>
           <Heading fontSize={'4xl'}>Sign in to your account</Heading>
         </Stack>
-        <Box
-          rounded={'lg'}
-          bg={useColorModeValue('white', 'gray.700')}
-          boxShadow={'lg'}
-          p={8}
+        <Formik
+          initialValues={{ email: '', password: '' }}
+          onSubmit={async (values) => {
+            const email = values.email;
+            const password = values.password;
+            logIn({ email, password })
+              .unwrap()
+              .then((user) => {
+                dispatch(changeUser(user));
+                navigate('/');
+              })
+              .catch((error) => {
+                setAlertError(error.data.message);
+              });
+          }}
         >
-          <Stack spacing={4}>
-            <FormControl id='email'>
-              <FormLabel>Email address</FormLabel>
-              <Input type='email' />
-            </FormControl>
-            <FormControl id='password'>
-              <FormLabel>Password</FormLabel>
-              <Input type='password' />
-            </FormControl>
-            <Stack spacing={10}>
-              <Stack
-                direction={{ base: 'column', sm: 'row' }}
-                align={'start'}
-                justify={'space-between'}
-              >
-                <Checkbox>Remember me</Checkbox>
-                <Text color={'blue.400'}>Forgot password?</Text>
-              </Stack>
-              <Button
-                bg={'black'}
-                color={'white'}
-                _hover={{
-                  bg: 'grey',
-                }}
-              >
-                Sign in
-              </Button>
-            </Stack>
-          </Stack>
-        </Box>
+          {() => (
+            <Form>
+              {alertError && (
+                <Alert status='error'>
+                  <AlertIcon />
+                  <AlertDescription>{alertError}</AlertDescription>
+                </Alert>
+              )}
+              <Box rounded={'lg'} boxShadow={'lg'} p={8}>
+                <Stack spacing={4}>
+                  <Field
+                    name='email'
+                    validate={(value: string) => {
+                      let error;
+                      if (!value) {
+                        error = 'Email is required';
+                      } else if (!value.match(emailReg)) {
+                        error = 'Enter a valid email address';
+                      }
+                      return error;
+                    }}
+                  >
+                    {({ field, form }: any) => (
+                      <FormControl
+                        isInvalid={form.errors.email && form.touched.email}
+                        isRequired
+                      >
+                        <FormLabel>Email address</FormLabel>
+                        <Input {...field} />
+                        <FormErrorMessage>{form.errors.email}</FormErrorMessage>
+                      </FormControl>
+                    )}
+                  </Field>
+                  <Field
+                    name='password'
+                    validate={(value: string) => {
+                      let error;
+                      if (!value) {
+                        error = 'Password is required';
+                      }
+                      return error;
+                    }}
+                  >
+                    {({ field, form }: any) => (
+                      <FormControl
+                        isInvalid={
+                          form.errors.password && form.touched.password
+                        }
+                        isRequired
+                      >
+                        <FormLabel>Password</FormLabel>
+                        <Input {...field} />
+                        <FormErrorMessage>
+                          {form.errors.password}
+                        </FormErrorMessage>
+                      </FormControl>
+                    )}
+                  </Field>
+                  <Stack spacing={10}>
+                    <Stack
+                      direction={{ base: 'column', sm: 'row' }}
+                      align={'start'}
+                      justify={'space-between'}
+                    >
+                      <Checkbox>Remember me</Checkbox>
+                      <Text color={'blue.400'}>Forgot password?</Text>
+                    </Stack>
+                    <Button
+                      bg={'black'}
+                      color={'white'}
+                      _hover={{
+                        bg: 'grey',
+                      }}
+                      type='submit'
+                      isLoading={isLoading}
+                    >
+                      Sign in
+                    </Button>
+                  </Stack>
+                </Stack>
+              </Box>
+            </Form>
+          )}
+        </Formik>
       </Stack>
     </Flex>
   );

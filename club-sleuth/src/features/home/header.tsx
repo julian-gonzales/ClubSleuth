@@ -1,11 +1,27 @@
-import { Box, Flex, Button, Stack, useColorModeValue } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  Button,
+  Stack,
+  useColorModeValue,
+  Menu,
+  MenuButton,
+  Avatar,
+  MenuList,
+  Center,
+  MenuDivider,
+  MenuItem,
+} from '@chakra-ui/react';
 import BackgroundImage from '../../assets/background-image-flipped.jpg';
 import { AiFillFacebook, AiFillInstagram } from 'react-icons/ai';
 import { RiTwitterXFill } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
 
 export default function WithSubnavigation() {
   // const { isOpen, onToggle } = useDisclosure();
+  const user = useSelector((state: RootState) => state.user.value);
 
   return (
     <Box>
@@ -32,45 +48,80 @@ export default function WithSubnavigation() {
           <Flex display={{ base: 'none', md: 'flex' }} ml={10}></Flex>
         </Flex>
 
-        <Stack
-          flex={{ base: 1, md: 0 }}
-          justify={'flex-end'}
-          direction={'row'}
-          spacing={6}
-          color={'white'}
-        >
-          <Link to={'/sign-in'}>
-            <Button
-              as={'a'}
-              fontSize={'lg'}
-              fontWeight={700}
-              background={'transparent'}
-              href={'#'}
-              color={'black'}
-              _hover={{
-                bg: 'transparent',
-              }}
+        {user._id !== '' ? (
+          <Menu>
+            <MenuButton
+              as={Button}
+              rounded={'full'}
+              variant={'link'}
+              cursor={'pointer'}
+              minW={0}
             >
-              Sign In
-            </Button>
-          </Link>
-          <Link to={'/sign-up'}>
-            <Button
-              as={'a'}
-              display={{ base: 'none', md: 'inline-flex' }}
-              fontSize={'lg'}
-              fontWeight={600}
-              href={'#'}
-              _hover={{
-                bg: 'blackAlpha',
-              }}
-              color={'white'}
-              backgroundColor={'black'}
-            >
-              Sign Up
-            </Button>
-          </Link>
-        </Stack>
+              <Avatar
+                size={'sm'}
+                src={'https://avatars.dicebear.com/api/male/username.svg'}
+              />
+            </MenuButton>
+            <MenuList alignItems={'center'}>
+              <br />
+              <Center>
+                <Avatar
+                  size={'2xl'}
+                  src={'https://avatars.dicebear.com/api/male/username.svg'}
+                />
+              </Center>
+              <br />
+              <Center>
+                <p>Username</p>
+              </Center>
+              <br />
+              <MenuDivider />
+              <MenuItem>Your Clubs</MenuItem>
+              <MenuItem>Account Settings</MenuItem>
+              <MenuItem>Logout</MenuItem>
+            </MenuList>
+          </Menu>
+        ) : (
+          <Stack
+            flex={{ base: 1, md: 0 }}
+            justify={'flex-end'}
+            direction={'row'}
+            spacing={6}
+            color={'white'}
+          >
+            <Link to={'/sign-in'}>
+              <Button
+                as={'a'}
+                fontSize={'lg'}
+                fontWeight={700}
+                background={'transparent'}
+                href={'#'}
+                color={'black'}
+                _hover={{
+                  bg: 'transparent',
+                }}
+              >
+                Sign In
+              </Button>
+            </Link>
+            <Link to={'/sign-up'}>
+              <Button
+                as={'a'}
+                display={{ base: 'none', md: 'inline-flex' }}
+                fontSize={'lg'}
+                fontWeight={600}
+                href={'#'}
+                _hover={{
+                  bg: 'blackAlpha',
+                }}
+                color={'white'}
+                backgroundColor={'black'}
+              >
+                Sign Up
+              </Button>
+            </Link>
+          </Stack>
+        )}
       </Flex>
     </Box>
   );
