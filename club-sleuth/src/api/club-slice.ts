@@ -8,17 +8,17 @@ export const clubSlice = apiSlice.injectEndpoints({
       transformResponse: (reponseData: Club[]) => reponseData,
       providesTags: ['Clubs'],
     }),
-    getSingleClub: builder.mutation({
-      query: ({ id }) => `clubs/${id}`,
-      transformResponse: (responseData: Club) => responseData,
-      invalidatesTags: ['Clubs']
-    }),
     getSingleClubQuery: builder.query({
       query: ({ id }) => `clubs/${id}`,
       transformResponse: (responseData: Club) => responseData,
       providesTags: ['Clubs'],
     }),
+    getUserClubs: builder.query({
+      query: ({ id }) => `user-clubs/${id}`,
+      transformResponse: (responseData: Club[]) => responseData,
+      providesTags: ['Clubs'],
+    }),
   }),
 });
 
-export const { useGetClubsQuery, useGetSingleClubMutation, useGetSingleClubQueryQuery } = clubSlice;
+export const { useGetClubsQuery, useGetSingleClubQueryQuery, useGetUserClubsQuery} = clubSlice;
