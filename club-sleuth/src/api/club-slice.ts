@@ -18,7 +18,39 @@ export const clubSlice = apiSlice.injectEndpoints({
       transformResponse: (responseData: Club[]) => responseData,
       providesTags: ['Clubs'],
     }),
+    updateUserClub: builder.mutation({
+      query: ({
+        id,
+        name,
+        active,
+        description,
+        province,
+        city,
+        members,
+        participation,
+      }) => ({
+        url: `user/update-club/${id}/${name}/${active}/${description}/${province}/${city}/${members}/${participation}`,
+        method: 'POST',
+        body: {
+          id,
+          name,
+          active,
+          description,
+          province,
+          city,
+          members,
+          participation,
+        },
+      }),
+      transformResponse: (responseData: Club) => responseData,
+      invalidatesTags: ['Clubs'],
+    }),
   }),
 });
 
-export const { useGetClubsQuery, useGetSingleClubQueryQuery, useGetUserClubsQuery} = clubSlice;
+export const {
+  useGetClubsQuery,
+  useGetSingleClubQueryQuery,
+  useGetUserClubsQuery,
+  useUpdateUserClubMutation,
+} = clubSlice;
