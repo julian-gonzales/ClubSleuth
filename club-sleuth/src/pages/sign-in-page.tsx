@@ -43,7 +43,7 @@ export default function SignInPage() {
               .unwrap()
               .then((user) => {
                 dispatch(changeUser(user));
-                navigate('/');
+                navigate('/user-clubs');
               })
               .catch((error) => {
                 setAlertError(error.data.message);

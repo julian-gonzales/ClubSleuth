@@ -21,24 +21,39 @@ import {
 import Header from '../features/common/header';
 import { Club } from '../domain/club';
 import { useGetUserClubsQuery } from '../api/club-slice';
-import { AddIcon, EditIcon } from '@chakra-ui/icons';
+import { AddIcon, CalendarIcon, EditIcon } from '@chakra-ui/icons';
 import EditClubModal from '../features/my-club-page/edit-club-modal';
 import { useState } from 'react';
+import ClubEventsModal from '../features/my-club-page/club-events-modal';
 
 const UserClubs = () => {
   const user: User = useSelector((state: RootState) => state.user.value);
   const { data: clubs, isFetching } = useGetUserClubsQuery({ id: user._id });
   const [clubToEdit, setClubToEdit] = useState<Club>();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const eventModal = useDisclosure();
 
-  const handleClick = (club: Club) => {
+  const handleClubInfoClick = (club: Club) => {
     setClubToEdit(club);
     onOpen();
+  };
+  const handleEventInfoClick = (club: Club) => {
+    setClubToEdit(club);
+    eventModal.onOpen();
   };
   return (
     <>
       {clubToEdit && (
-        <EditClubModal isOpen={isOpen} onClose={onClose} club={clubToEdit} />
+        <>
+          <EditClubModal isOpen={isOpen} onClose={onClose} club={clubToEdit} />
+        </>
+      )}
+      {clubToEdit && (
+        <ClubEventsModal
+          isOpen={eventModal.isOpen}
+          onClose={eventModal.onClose}
+          club={clubToEdit}
+        />
       )}
       <Header city='' searching={false}></Header>
       <Box w={'100%'} overflow={'auto'} m={'auto'} mt={20} bg={'transparent'}>
@@ -94,7 +109,7 @@ const UserClubs = () => {
                               leftIcon={<EditIcon />}
                               size={'sm'}
                               onClick={() => {
-                                handleClick(club);
+                                handleClubInfoClick(club);
                               }}
                             >
                               Edit
