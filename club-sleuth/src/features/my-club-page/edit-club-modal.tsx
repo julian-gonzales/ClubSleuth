@@ -1,10 +1,13 @@
 import {
   Accordion,
+  AccordionButton,
+  AccordionIcon,
   AccordionItem,
+  AccordionPanel,
+  Box,
   Button,
   Card,
   CardBody,
-  CardHeader,
   Checkbox,
   FormControl,
   FormErrorMessage,
@@ -21,19 +24,27 @@ import {
   Textarea,
   useDisclosure,
 } from '@chakra-ui/react';
-import { Club, ReoccuringEvents } from '../../domain/club';
-import { Field, Form, Formik } from 'formik';
+import { Club } from '../../domain/club';
+import { Field, FieldArray, Form, Formik } from 'formik';
 import PROVINCES from '../../domain/provinces';
-import { useUpdateUserClubMutation } from '../../api/club-slice';
+import {
+  useCreateUserClubMutation,
+  useUpdateUserClubMutation,
+} from '../../api/club-slice';
+import { AddIcon, DeleteIcon } from '@chakra-ui/icons';
+import { User } from '../../domain/user';
 
 type Params = {
   isOpen: any;
   onClose: any;
   club: Club;
+  user: User;
+  update: boolean;
 };
 
-const EditClubModal = ({ isOpen, onClose, club }: Params) => {
+const EditClubModal = ({ isOpen, onClose, club, user, update }: Params) => {
   const [updateClub] = useUpdateUserClubMutation();
+  const [createClub] = useCreateUserClubMutation();
   const {
     isOpen: confirmationIsOpen,
     onOpen: confirmationOnOpen,
@@ -55,31 +66,43 @@ const EditClubModal = ({ isOpen, onClose, club }: Params) => {
             futureEvents: club.futureEvents,
           }}
           onSubmit={async (values) => {
-            const id = club._id;
-            const name = values.name;
-            const description = values.description;
-            const active = values.active;
-            const members = values.members;
-            const participation = values.participation;
-            const city = values.city;
-            const province = values.province;
-            const reoccuringEvents = values.reoccuringEvents;
-            const futureEvents = values.futureEvents;
-            updateClub({
-              id,
-              name,
-              active,
-              description,
-              province,
-              city,
-              members,
-              participation,
-            })
-              .unwrap()
-              .then(() => {
-                onClose();
+            if (update) {
+              updateClub({
+                id: club._id,
+                name: values.name,
+                description: values.description,
+                active: values.active,
+                province: values.province,
+                city: values.city,
+                members: values.members,
+                participation: values.participation,
+                reoccuringEvents: values.reoccuringEvents,
+                futureEvents: values.futureEvents,
               })
-              .catch((error) => console.log(error));
+                .unwrap()
+                .then(() => {
+                  onClose();
+                })
+                .catch((error) => console.log(error));
+            } else {
+              createClub({
+                user: user._id,
+                name: values.name,
+                description: values.description,
+                active: values.active,
+                province: values.province,
+                city: values.city,
+                members: values.members,
+                participation: values.participation,
+                reoccuringEvents: values.reoccuringEvents,
+                futureEvents: values.futureEvents,
+              })
+                .unwrap()
+                .then(() => {
+                  onClose();
+                })
+                .catch((error) => console.log(error));
+            }
           }}
         >
           {({ values, handleSubmit }) => (
@@ -255,17 +278,346 @@ const EditClubModal = ({ isOpen, onClose, club }: Params) => {
                       )}
                     </Field>
                   </Stack>
-                  <Card>
-                    <CardHeader>REGULAR ACTIVITIES</CardHeader>
+                  <Card mt={5}>
                     <CardBody>
-                      <Accordion>
-                        {values.reoccuringEvents?.map(
-                          (event: ReoccuringEvents) => (
-                            <AccordionItem key={event.title}>
-                              <Text>{event.title}</Text>
-                            </AccordionItem>
-                          )
-                        )}
+                      <Accordion allowMultiple>
+                        <FieldArray
+                          name='reoccuringEvents'
+                          render={(arrayHelpers) => (
+                            <Box>
+                              <Stack direction={'row'} mb={5}>
+                                <Text
+                                  fontWeight={600}
+                                  fontSize={'20px'}
+                                  w={'50%'}
+                                >
+                                  REGULAR PROGRAMS
+                                </Text>
+                                <Box textAlign={'end'} w={'100%'}>
+                                  <Button
+                                    colorScheme='green'
+                                    size={'sm'}
+                                    onClick={() => {
+                                      arrayHelpers.push({
+                                        title: '',
+                                        when: '',
+                                        description: '',
+                                        date: '',
+                                        time: '',
+                                        location: '',
+                                        memberOnly: false,
+                                      });
+                                    }}
+                                  >
+                                    <AddIcon />
+                                  </Button>
+                                </Box>
+                              </Stack>
+                              {values.reoccuringEvents &&
+                                values.reoccuringEvents.length > 0 &&
+                                values.reoccuringEvents.map((event, index) => (
+                                  <AccordionItem>
+                                    <h2>
+                                      <AccordionButton>
+                                        <Box
+                                          as='span'
+                                          flex='1'
+                                          textAlign='left'
+                                        >
+                                          {event.title}
+                                        </Box>
+                                        <AccordionIcon />
+                                      </AccordionButton>
+                                    </h2>
+                                    <AccordionPanel>
+                                      <Box w={'100%'} textAlign={'end'}>
+                                        <Button
+                                          colorScheme='red'
+                                          size={'sm'}
+                                          onClick={() => {
+                                            arrayHelpers.remove(index);
+                                          }}
+                                        >
+                                          <DeleteIcon />
+                                        </Button>
+                                      </Box>
+                                      <Stack direction={'row'}>
+                                        <Field
+                                          name={`reoccuringEvents[${index}].title`}
+                                          validate={() => {}}
+                                        >
+                                          {({ field, form }: any) => (
+                                            <FormControl isRequired w={'100%'}>
+                                              <FormLabel>Title</FormLabel>
+                                              <Input
+                                                defaultValue={event.title}
+                                                {...field}
+                                              />
+                                            </FormControl>
+                                          )}
+                                        </Field>
+                                        <Field
+                                          type='checkbox'
+                                          name={`reoccuringEvents[${index}].memberOnly`}
+                                          validate={() => {}}
+                                        >
+                                          {({ field, form }: any) => (
+                                            <FormControl
+                                              isRequired
+                                              m={'auto'}
+                                              textAlign={'center'}
+                                            >
+                                              <Checkbox
+                                                defaultChecked={
+                                                  event.memberOnly
+                                                }
+                                                {...field}
+                                                colorScheme='green'
+                                              >
+                                                Member Only
+                                              </Checkbox>
+                                            </FormControl>
+                                          )}
+                                        </Field>
+                                      </Stack>
+                                      <Field
+                                        name={`reoccuringEvents[${index}].description`}
+                                        validate={() => {}}
+                                      >
+                                        {({ field, form }: any) => (
+                                          <FormControl isRequired w={'100%'}>
+                                            <FormLabel>Description</FormLabel>
+                                            <Textarea
+                                              defaultValue={event.description}
+                                              {...field}
+                                            />
+                                          </FormControl>
+                                        )}
+                                      </Field>
+                                      <Field
+                                        name={`reoccuringEvents[${index}].location`}
+                                        validate={() => {}}
+                                      >
+                                        {({ field, form }: any) => (
+                                          <FormControl isRequired w={'100%'}>
+                                            <FormLabel>Location</FormLabel>
+                                            <Input
+                                              defaultValue={event.location}
+                                              {...field}
+                                            />
+                                          </FormControl>
+                                        )}
+                                      </Field>
+                                      <Field
+                                        name={`reoccuringEvents[${index}].when`}
+                                        validate={() => {}}
+                                      >
+                                        {({ field, form }: any) => (
+                                          <FormControl isRequired w={'100%'}>
+                                            <FormLabel>When</FormLabel>
+                                            <Input
+                                              defaultValue={event.when}
+                                              {...field}
+                                            />
+                                          </FormControl>
+                                        )}
+                                      </Field>
+                                      <Field
+                                        name={`reoccuringEvents[${index}].date`}
+                                        validate={() => {}}
+                                      >
+                                        {({ field, form }: any) => (
+                                          <FormControl isRequired w={'100%'}>
+                                            <FormLabel>Date</FormLabel>
+                                            <Input
+                                              defaultValue={event.date}
+                                              {...field}
+                                            />
+                                          </FormControl>
+                                        )}
+                                      </Field>
+                                      <Field
+                                        name={`reoccuringEvents[${index}].time`}
+                                        validate={() => {}}
+                                      >
+                                        {({ field, form }: any) => (
+                                          <FormControl isRequired w={'100%'}>
+                                            <FormLabel>Time</FormLabel>
+                                            <Input
+                                              defaultValue={event.time}
+                                              {...field}
+                                            />
+                                          </FormControl>
+                                        )}
+                                      </Field>
+                                    </AccordionPanel>
+                                  </AccordionItem>
+                                ))}
+                            </Box>
+                          )}
+                        />
+                      </Accordion>
+                      <Accordion allowMultiple mt={5}>
+                        <FieldArray
+                          name='futureEvents'
+                          render={(arrayHelpers) => (
+                            <Box>
+                              <Stack direction={'row'} mb={5}>
+                                <Text
+                                  fontWeight={600}
+                                  fontSize={'20px'}
+                                  w={'50%'}
+                                >
+                                  FUTURE EVENTS
+                                </Text>
+                                <Box textAlign={'end'} w={'100%'}>
+                                  <Button
+                                    colorScheme='green'
+                                    size={'sm'}
+                                    onClick={() => {
+                                      arrayHelpers.push({
+                                        title: '',
+                                        description: '',
+                                        date: '',
+                                        time: '',
+                                        location: '',
+                                        memberOnly: false,
+                                      });
+                                    }}
+                                  >
+                                    <AddIcon />
+                                  </Button>
+                                </Box>
+                              </Stack>
+                              {values.futureEvents &&
+                                values.futureEvents.length > 0 &&
+                                values.futureEvents.map((event, index) => (
+                                  <AccordionItem>
+                                    <h2>
+                                      <AccordionButton>
+                                        <Box
+                                          as='span'
+                                          flex='1'
+                                          textAlign='left'
+                                        >
+                                          {event.title}
+                                        </Box>
+                                        <AccordionIcon />
+                                      </AccordionButton>
+                                    </h2>
+                                    <AccordionPanel>
+                                      <Box w={'100%'} textAlign={'end'}>
+                                        <Button
+                                          colorScheme='red'
+                                          size={'sm'}
+                                          onClick={() => {
+                                            arrayHelpers.remove(index);
+                                          }}
+                                        >
+                                          <DeleteIcon />
+                                        </Button>
+                                      </Box>
+                                      <Stack direction={'row'}>
+                                        <Field
+                                          name={`futureEvents[${index}].title`}
+                                          validate={() => {}}
+                                        >
+                                          {({ field, form }: any) => (
+                                            <FormControl isRequired w={'100%'}>
+                                              <FormLabel>Title</FormLabel>
+                                              <Input
+                                                defaultValue={event.title}
+                                                {...field}
+                                              />
+                                            </FormControl>
+                                          )}
+                                        </Field>
+                                        <Field
+                                          type='checkbox'
+                                          name={`futureEvents[${index}].memberOnly`}
+                                          validate={() => {}}
+                                        >
+                                          {({ field, form }: any) => (
+                                            <FormControl
+                                              isRequired
+                                              m={'auto'}
+                                              textAlign={'center'}
+                                            >
+                                              <Checkbox
+                                                defaultChecked={
+                                                  event.memberOnly
+                                                }
+                                                {...field}
+                                                colorScheme='green'
+                                              >
+                                                Member Only
+                                              </Checkbox>
+                                            </FormControl>
+                                          )}
+                                        </Field>
+                                      </Stack>
+                                      <Field
+                                        name={`futureEvents[${index}].description`}
+                                        validate={() => {}}
+                                      >
+                                        {({ field, form }: any) => (
+                                          <FormControl isRequired w={'100%'}>
+                                            <FormLabel>Description</FormLabel>
+                                            <Textarea
+                                              defaultValue={event.description}
+                                              {...field}
+                                            />
+                                          </FormControl>
+                                        )}
+                                      </Field>
+                                      <Field
+                                        name={`futureEvents[${index}].location`}
+                                        validate={() => {}}
+                                      >
+                                        {({ field, form }: any) => (
+                                          <FormControl isRequired w={'100%'}>
+                                            <FormLabel>Location</FormLabel>
+                                            <Input
+                                              defaultValue={event.location}
+                                              {...field}
+                                            />
+                                          </FormControl>
+                                        )}
+                                      </Field>
+                                      <Field
+                                        name={`futureEvents[${index}].date`}
+                                        validate={() => {}}
+                                      >
+                                        {({ field, form }: any) => (
+                                          <FormControl isRequired w={'100%'}>
+                                            <FormLabel>Date</FormLabel>
+                                            <Input
+                                              defaultValue={event.date}
+                                              {...field}
+                                            />
+                                          </FormControl>
+                                        )}
+                                      </Field>
+                                      <Field
+                                        name={`futureEvents[${index}].time`}
+                                        validate={() => {}}
+                                      >
+                                        {({ field, form }: any) => (
+                                          <FormControl isRequired w={'100%'}>
+                                            <FormLabel>Time</FormLabel>
+                                            <Input
+                                              defaultValue={event.time}
+                                              {...field}
+                                            />
+                                          </FormControl>
+                                        )}
+                                      </Field>
+                                    </AccordionPanel>
+                                  </AccordionItem>
+                                ))}
+                            </Box>
+                          )}
+                        />
                       </Accordion>
                     </CardBody>
                   </Card>

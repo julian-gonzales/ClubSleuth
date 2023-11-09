@@ -3,7 +3,7 @@ export type Clubs = {
 };
 
 export type Club = {
-  _id: string;
+  _id?: string;
   name: string;
   members: string;
   description: string;
@@ -14,7 +14,8 @@ export type Club = {
   futureEvents?: FutureEvents[];
   active: boolean;
   participation: string;
-  lastUpdated: Date;
+  lastUpdated?: Date;
+  user: string;
 };
 
 export type ReoccuringEvents = {

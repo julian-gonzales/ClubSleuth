@@ -20,46 +20,66 @@ import {
 } from '@chakra-ui/react';
 import Header from '../features/common/header';
 import { Club } from '../domain/club';
-import { useGetUserClubsQuery } from '../api/club-slice';
-import { AddIcon, CalendarIcon, EditIcon } from '@chakra-ui/icons';
+import { useDeleteClubMutation, useGetUserClubsQuery } from '../api/club-slice';
+import { AddIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import EditClubModal from '../features/my-club-page/edit-club-modal';
 import { useState } from 'react';
-import ClubEventsModal from '../features/my-club-page/club-events-modal';
 
 const UserClubs = () => {
   const user: User = useSelector((state: RootState) => state.user.value);
   const { data: clubs, isFetching } = useGetUserClubsQuery({ id: user._id });
+  const [deleteClub] = useDeleteClubMutation();
   const [clubToEdit, setClubToEdit] = useState<Club>();
+  const [update, setUpdate] = useState(true);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const eventModal = useDisclosure();
 
   const handleClubInfoClick = (club: Club) => {
     setClubToEdit(club);
+    setUpdate(true);
     onOpen();
   };
-  const handleEventInfoClick = (club: Club) => {
+
+  const handleAddClubClick = () => {
+    const club: Club = {
+      name: '',
+      members: '0-10',
+      description: '',
+      province: 'SK',
+      city: '',
+      country: '',
+      reoccuringEvents: [],
+      futureEvents: [],
+      active: false,
+      participation: 'Casual',
+      user: user._id,
+    };
     setClubToEdit(club);
-    eventModal.onOpen();
+    setUpdate(false);
+    onOpen();
   };
+
   return (
     <>
       {clubToEdit && (
         <>
-          <EditClubModal isOpen={isOpen} onClose={onClose} club={clubToEdit} />
+          <EditClubModal
+            isOpen={isOpen}
+            onClose={onClose}
+            club={clubToEdit}
+            user={user}
+            update={update}
+          />
         </>
-      )}
-      {clubToEdit && (
-        <ClubEventsModal
-          isOpen={eventModal.isOpen}
-          onClose={eventModal.onClose}
-          club={clubToEdit}
-        />
       )}
       <Header city='' searching={false}></Header>
       <Box w={'100%'} overflow={'auto'} m={'auto'} mt={20} bg={'transparent'}>
         <Box textAlign={'end'} w={'80%'} m={'auto'} mb={3}>
           <Button colorScheme='green' size={'sm'}>
-            <AddIcon />
+            <AddIcon
+              onClick={() => {
+                handleAddClubClick();
+              }}
+            />
           </Button>
         </Box>
         <Card maxH={'100%'} w={'80%'} shadow={'2xl'} m={'auto'} mb={10}>
@@ -113,6 +133,20 @@ const UserClubs = () => {
                               }}
                             >
                               Edit
+                            </Button>
+                            <Button
+                              ml={5}
+                              colorScheme='red'
+                              size={'sm'}
+                              onClick={() => {
+                                deleteClub({ id: club._id })
+                                  .then((result) => {
+                                    console.log(result);
+                                  })
+                                  .catch((error) => console.log(error));
+                              }}
+                            >
+                              <DeleteIcon />
                             </Button>
                           </Td>
                         </Tr>
