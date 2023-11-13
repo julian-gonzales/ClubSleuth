@@ -15,13 +15,16 @@ import {
 import BackgroundImage from "../../assets/background-image-flipped.jpg";
 import { AiFillFacebook, AiFillInstagram } from "react-icons/ai";
 import { RiTwitterXFill } from "react-icons/ri";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
+import { changeUser } from "../../slice/user-slice";
 
 export default function WithSubnavigation() {
   // const { isOpen, onToggle } = useDisclosure();
   const user = useSelector((state: RootState) => state.user.value);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   return (
     <Box>
@@ -80,7 +83,23 @@ export default function WithSubnavigation() {
                 <MenuItem>Your Clubs</MenuItem>
               </Link>
               <MenuItem>Account Settings</MenuItem>
-              <MenuItem>Logout</MenuItem>
+              <MenuItem
+                onClick={() => {
+                  dispatch(
+                    changeUser({
+                      _id: "",
+                      activated: false,
+                      clubs: [],
+                      email: "",
+                      firstName: "",
+                      lastName: "",
+                    })
+                  );
+                  navigate("/sign-in");
+                }}
+              >
+                Logout
+              </MenuItem>
             </MenuList>
           </Menu>
         ) : (

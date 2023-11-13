@@ -13,29 +13,29 @@ import {
   Alert,
   AlertIcon,
   AlertDescription,
-} from '@chakra-ui/react';
-import { Field, Form, Formik } from 'formik';
-import { useGetUserByInfoMutation } from '../api/user-slice';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { changeUser } from '../slice/user-slice';
-import { useNavigate } from 'react-router-dom';
-import { emailReg } from '../utils/string-utils';
+} from "@chakra-ui/react";
+import { Field, Form, Formik } from "formik";
+import { useGetUserByInfoMutation } from "../api/user-slice";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { changeUser } from "../slice/user-slice";
+import { Link, useNavigate } from "react-router-dom";
+import { emailReg } from "../utils/string-utils";
 
 export default function SignInPage() {
   const [logIn, { isLoading }] = useGetUserByInfoMutation();
-  const [alertError, setAlertError] = useState('');
+  const [alertError, setAlertError] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   return (
-    <Flex minH={'100vh'} align={'center'} justify={'center'}>
-      <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
-        <Stack align={'center'}>
-          <Heading fontSize={'4xl'}>Sign in to your account</Heading>
+    <Flex minH={"100vh"} align={"center"} justify={"center"}>
+      <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
+        <Stack align={"center"}>
+          <Heading fontSize={"4xl"}>Sign in to your account</Heading>
         </Stack>
         <Formik
-          initialValues={{ email: '', password: '' }}
+          initialValues={{ email: "", password: "" }}
           onSubmit={async (values) => {
             const email = values.email;
             const password = values.password;
@@ -43,7 +43,7 @@ export default function SignInPage() {
               .unwrap()
               .then((user) => {
                 dispatch(changeUser(user));
-                navigate('/user-clubs');
+                navigate("/user-clubs");
               })
               .catch((error) => {
                 setAlertError(error.data.message);
@@ -53,21 +53,21 @@ export default function SignInPage() {
           {() => (
             <Form>
               {alertError && (
-                <Alert status='error'>
+                <Alert status="error">
                   <AlertIcon />
                   <AlertDescription>{alertError}</AlertDescription>
                 </Alert>
               )}
-              <Box rounded={'lg'} boxShadow={'lg'} p={8}>
+              <Box rounded={"lg"} boxShadow={"lg"} p={8}>
                 <Stack spacing={4}>
                   <Field
-                    name='email'
+                    name="email"
                     validate={(value: string) => {
                       let error;
                       if (!value) {
-                        error = 'Email is required';
+                        error = "Email is required";
                       } else if (!value.match(emailReg)) {
-                        error = 'Enter a valid email address';
+                        error = "Enter a valid email address";
                       }
                       return error;
                     }}
@@ -84,11 +84,11 @@ export default function SignInPage() {
                     )}
                   </Field>
                   <Field
-                    name='password'
+                    name="password"
                     validate={(value: string) => {
                       let error;
                       if (!value) {
-                        error = 'Password is required';
+                        error = "Password is required";
                       }
                       return error;
                     }}
@@ -101,7 +101,7 @@ export default function SignInPage() {
                         isRequired
                       >
                         <FormLabel>Password</FormLabel>
-                        <Input type='password' {...field} />
+                        <Input type="password" {...field} />
                         <FormErrorMessage>
                           {form.errors.password}
                         </FormErrorMessage>
@@ -110,24 +110,29 @@ export default function SignInPage() {
                   </Field>
                   <Stack spacing={10}>
                     <Stack
-                      direction={{ base: 'column', sm: 'row' }}
-                      align={'start'}
-                      justify={'space-between'}
+                      direction={{ base: "column", sm: "row" }}
+                      align={"start"}
+                      justify={"space-between"}
                     >
                       <Checkbox>Remember me</Checkbox>
-                      <Text color={'blue.400'}>Forgot password?</Text>
+                      <Text color={"blue.400"}>Forgot password?</Text>
                     </Stack>
                     <Button
-                      bg={'black'}
-                      color={'white'}
+                      bg={"black"}
+                      color={"white"}
                       _hover={{
-                        bg: 'grey',
+                        bg: "grey",
                       }}
-                      type='submit'
+                      type="submit"
                       isLoading={isLoading}
                     >
                       Sign in
                     </Button>
+                    <Link to="/sign-up">
+                      <Text textAlign={"center"} color={"blue.400"}>
+                        Sign Up
+                      </Text>
+                    </Link>
                   </Stack>
                 </Stack>
               </Box>

@@ -14,9 +14,10 @@ import {
   Center,
 } from "@chakra-ui/react";
 import Logo from "./logo";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { changeUser } from "../../slice/user-slice";
 
 interface HeaderProps {
   city: string;
@@ -25,6 +26,9 @@ interface HeaderProps {
 
 export default function Header({ city, searching }: HeaderProps) {
   const user = useSelector((state: RootState) => state.user.value);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   return (
     <>
       <Box bg={useColorModeValue("black", "black.800")} minH={"100px"} px={4}>
@@ -91,7 +95,23 @@ export default function Header({ city, searching }: HeaderProps) {
                       <MenuItem>Your Clubs</MenuItem>
                     </Link>
                     <MenuItem>Account Settings</MenuItem>
-                    <MenuItem>Logout</MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        dispatch(
+                          changeUser({
+                            _id: "",
+                            activated: false,
+                            clubs: [],
+                            email: "",
+                            firstName: "",
+                            lastName: "",
+                          })
+                        );
+                        navigate('/sign-in')
+                      }}
+                    >
+                      Logout
+                    </MenuItem>
                   </MenuList>
                 </Menu>
               ) : (
