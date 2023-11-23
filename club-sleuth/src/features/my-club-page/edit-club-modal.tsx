@@ -105,13 +105,24 @@ const EditClubModal = ({ isOpen, onClose, club, user, update }: Params) => {
             }
           }}
         >
-          {({ values, handleSubmit }) => (
+          {({ values, handleSubmit, errors, isValid }) => (
             <Form>
               <ModalContent>
-                <ModalHeader textAlign={'center'}>Edit</ModalHeader>
+                <ModalHeader textAlign={'center'}>
+                  {update ? <>Edit</> : <>Add</>}
+                </ModalHeader>
                 <ModalBody>
                   <Stack direction={'row'}>
-                    <Field name='name' validate={() => {}}>
+                    <Field
+                      name='name'
+                      validate={(value: string) => {
+                        let error;
+                        if (!value) {
+                          error = 'Name is required';
+                        }
+                        return error;
+                      }}
+                    >
                       {({ field, form }: any) => (
                         <FormControl
                           isInvalid={form.errors.name && form.touched.name}
@@ -148,7 +159,16 @@ const EditClubModal = ({ isOpen, onClose, club, user, update }: Params) => {
                       )}
                     </Field>
                   </Stack>
-                  <Field name='description' validate={() => {}}>
+                  <Field
+                    name='description'
+                    validate={(value: string) => {
+                      let error;
+                      if (!value) {
+                        error = 'Description is required';
+                      }
+                      return error;
+                    }}
+                  >
                     {({ field, form }: any) => (
                       <FormControl
                         isInvalid={
@@ -166,7 +186,16 @@ const EditClubModal = ({ isOpen, onClose, club, user, update }: Params) => {
                     )}
                   </Field>
                   <Stack direction={'row'} mt={5}>
-                    <Field name='province' validate={() => {}}>
+                    <Field
+                      name='province'
+                      validate={(value: string) => {
+                        let error;
+                        if (!value) {
+                          error = 'Province is required';
+                        }
+                        return error;
+                      }}
+                    >
                       {({ field, form }: any) => (
                         <FormControl
                           isInvalid={
@@ -195,7 +224,16 @@ const EditClubModal = ({ isOpen, onClose, club, user, update }: Params) => {
                         </FormControl>
                       )}
                     </Field>
-                    <Field name='city' validate={() => {}}>
+                    <Field
+                      name='city'
+                      validate={(value: string) => {
+                        let error;
+                        if (!value) {
+                          error = 'City is required';
+                        }
+                        return error;
+                      }}
+                    >
                       {({ field, form }: any) => (
                         <FormControl
                           isInvalid={form.errors.city && form.touched.city}
@@ -212,7 +250,16 @@ const EditClubModal = ({ isOpen, onClose, club, user, update }: Params) => {
                     </Field>
                   </Stack>
                   <Stack direction={'row'} mt={5}>
-                    <Field name='members' validate={() => {}}>
+                    <Field
+                      name='members'
+                      validate={(value: string) => {
+                        let error;
+                        if (!value) {
+                          error = 'Number of members is required';
+                        }
+                        return error;
+                      }}
+                    >
                       {({ field, form }: any) => (
                         <FormControl
                           isInvalid={
@@ -244,7 +291,16 @@ const EditClubModal = ({ isOpen, onClose, club, user, update }: Params) => {
                         </FormControl>
                       )}
                     </Field>
-                    <Field name='participation' validate={() => {}}>
+                    <Field
+                      name='participation'
+                      validate={(value: string) => {
+                        let error;
+                        if (!value) {
+                          error = 'Commitment level is required';
+                        }
+                        return error;
+                      }}
+                    >
                       {({ field, form }: any) => (
                         <FormControl
                           isInvalid={
@@ -344,7 +400,13 @@ const EditClubModal = ({ isOpen, onClose, club, user, update }: Params) => {
                                       <Stack direction={'row'}>
                                         <Field
                                           name={`reoccuringEvents[${index}].title`}
-                                          validate={() => {}}
+                                          validate={(value: string) => {
+                                            let error;
+                                            if (!value) {
+                                              error = 'Title is required';
+                                            }
+                                            return error;
+                                          }}
                                         >
                                           {({ field, form }: any) => (
                                             <FormControl isRequired w={'100%'}>
@@ -382,7 +444,13 @@ const EditClubModal = ({ isOpen, onClose, club, user, update }: Params) => {
                                       </Stack>
                                       <Field
                                         name={`reoccuringEvents[${index}].description`}
-                                        validate={() => {}}
+                                        validate={(value: string) => {
+                                          let error;
+                                          if (!value) {
+                                            error = 'Description is required';
+                                          }
+                                          return error;
+                                        }}
                                       >
                                         {({ field, form }: any) => (
                                           <FormControl isRequired w={'100%'}>
@@ -396,7 +464,13 @@ const EditClubModal = ({ isOpen, onClose, club, user, update }: Params) => {
                                       </Field>
                                       <Field
                                         name={`reoccuringEvents[${index}].location`}
-                                        validate={() => {}}
+                                        validate={(value: string) => {
+                                          let error;
+                                          if (!value) {
+                                            error = 'Location is required';
+                                          }
+                                          return error;
+                                        }}
                                       >
                                         {({ field, form }: any) => (
                                           <FormControl isRequired w={'100%'}>
@@ -410,7 +484,13 @@ const EditClubModal = ({ isOpen, onClose, club, user, update }: Params) => {
                                       </Field>
                                       <Field
                                         name={`reoccuringEvents[${index}].when`}
-                                        validate={() => {}}
+                                        validate={(value: string) => {
+                                          let error;
+                                          if (!value) {
+                                            error = 'When is required';
+                                          }
+                                          return error;
+                                        }}
                                       >
                                         {({ field, form }: any) => (
                                           <FormControl isRequired w={'100%'}>
@@ -424,7 +504,13 @@ const EditClubModal = ({ isOpen, onClose, club, user, update }: Params) => {
                                       </Field>
                                       <Field
                                         name={`reoccuringEvents[${index}].date`}
-                                        validate={() => {}}
+                                        validate={(value: string) => {
+                                          let error;
+                                          if (!value) {
+                                            error = 'Date is required';
+                                          }
+                                          return error;
+                                        }}
                                       >
                                         {({ field, form }: any) => (
                                           <FormControl isRequired w={'100%'}>
@@ -438,7 +524,13 @@ const EditClubModal = ({ isOpen, onClose, club, user, update }: Params) => {
                                       </Field>
                                       <Field
                                         name={`reoccuringEvents[${index}].time`}
-                                        validate={() => {}}
+                                        validate={(value: string) => {
+                                          let error;
+                                          if (!value) {
+                                            error = 'Time is required';
+                                          }
+                                          return error;
+                                        }}
                                       >
                                         {({ field, form }: any) => (
                                           <FormControl isRequired w={'100%'}>
@@ -520,7 +612,13 @@ const EditClubModal = ({ isOpen, onClose, club, user, update }: Params) => {
                                       <Stack direction={'row'}>
                                         <Field
                                           name={`futureEvents[${index}].title`}
-                                          validate={() => {}}
+                                          validate={(value: string) => {
+                                            let error;
+                                            if (!value) {
+                                              error = 'Title is required';
+                                            }
+                                            return error;
+                                          }}
                                         >
                                           {({ field, form }: any) => (
                                             <FormControl isRequired w={'100%'}>
@@ -558,7 +656,13 @@ const EditClubModal = ({ isOpen, onClose, club, user, update }: Params) => {
                                       </Stack>
                                       <Field
                                         name={`futureEvents[${index}].description`}
-                                        validate={() => {}}
+                                        validate={(value: string) => {
+                                          let error;
+                                          if (!value) {
+                                            error = 'Description is required';
+                                          }
+                                          return error;
+                                        }}
                                       >
                                         {({ field, form }: any) => (
                                           <FormControl isRequired w={'100%'}>
@@ -572,7 +676,13 @@ const EditClubModal = ({ isOpen, onClose, club, user, update }: Params) => {
                                       </Field>
                                       <Field
                                         name={`futureEvents[${index}].location`}
-                                        validate={() => {}}
+                                        validate={(value: string) => {
+                                          let error;
+                                          if (!value) {
+                                            error = 'Location is required';
+                                          }
+                                          return error;
+                                        }}
                                       >
                                         {({ field, form }: any) => (
                                           <FormControl isRequired w={'100%'}>
@@ -586,7 +696,13 @@ const EditClubModal = ({ isOpen, onClose, club, user, update }: Params) => {
                                       </Field>
                                       <Field
                                         name={`futureEvents[${index}].date`}
-                                        validate={() => {}}
+                                        validate={(value: string) => {
+                                          let error;
+                                          if (!value) {
+                                            error = 'Date is required';
+                                          }
+                                          return error;
+                                        }}
                                       >
                                         {({ field, form }: any) => (
                                           <FormControl isRequired w={'100%'}>
@@ -600,7 +716,13 @@ const EditClubModal = ({ isOpen, onClose, club, user, update }: Params) => {
                                       </Field>
                                       <Field
                                         name={`futureEvents[${index}].time`}
-                                        validate={() => {}}
+                                        validate={(value: string) => {
+                                          let error;
+                                          if (!value) {
+                                            error = 'Time is required';
+                                          }
+                                          return error;
+                                        }}
                                       >
                                         {({ field, form }: any) => (
                                           <FormControl isRequired w={'100%'}>
@@ -627,9 +749,17 @@ const EditClubModal = ({ isOpen, onClose, club, user, update }: Params) => {
                     Close
                   </Button>
                   <Button
-                    colorScheme='blue'
+                    bg={'black'}
+                    color={'white'}
+                    _hover={{
+                      bg: 'grey',
+                    }}
                     mr={3}
-                    onClick={() => confirmationOnOpen()}
+                    onClick={() => {
+                      if (isValid) {
+                        confirmationOnOpen();
+                      }
+                    }}
                   >
                     Save
                   </Button>
@@ -648,7 +778,11 @@ const EditClubModal = ({ isOpen, onClose, club, user, update }: Params) => {
                       Close
                     </Button>
                     <Button
-                      colorScheme='blue'
+                      bg={'black'}
+                      color={'white'}
+                      _hover={{
+                        bg: 'grey',
+                      }}
                       ml={3}
                       type='submit'
                       onClick={() => {
