@@ -10,7 +10,7 @@ interface ClubDetailsProps {
 
 const ClubDetails = ({ club }: ClubDetailsProps) => {
   return (
-    <Box key={club._id} borderBottom={1} borderLeft={1} borderStyle={'solid'}>
+    <Box key={club._id} borderTop={1} borderBottom={1} borderLeft={1} borderStyle={'solid'}>
       <Link to={`/clubs/${club._id}`}>
         <Box ml={5}>
           <Text fontSize={'36px'} fontWeight={'extrabold'}>

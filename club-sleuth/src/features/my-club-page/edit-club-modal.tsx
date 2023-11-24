@@ -115,7 +115,7 @@ const EditClubModal = ({ isOpen, onClose, club, user, update }: Params) => {
                   {update ? <>Edit</> : <>Add</>}
                 </ModalHeader>
                 <ModalBody>
-                  <Stack direction={'row'}>
+                  <Stack direction={{ base: 'column', md: 'row', lg: 'row' }}>
                     <Field
                       name='name'
                       validate={(value: string) => {
@@ -400,7 +400,13 @@ const EditClubModal = ({ isOpen, onClose, club, user, update }: Params) => {
                                           <DeleteIcon />
                                         </Button>
                                       </Box>
-                                      <Stack direction={'row'}>
+                                      <Stack
+                                        direction={{
+                                          base: 'column',
+                                          md: 'row',
+                                          lg: 'row',
+                                        }}
+                                      >
                                         <Field
                                           name={`reoccuringEvents[${index}].title`}
                                           validate={(value: string) => {
@@ -465,86 +471,109 @@ const EditClubModal = ({ isOpen, onClose, club, user, update }: Params) => {
                                           </FormControl>
                                         )}
                                       </Field>
-                                      <Field
-                                        name={`reoccuringEvents[${index}].location`}
-                                        validate={(value: string) => {
-                                          let error;
-                                          if (!value) {
-                                            error = 'Location is required';
-                                          }
-                                          return error;
+                                      <Stack
+                                        direction={{
+                                          base: 'column',
+                                          md: 'row',
+                                          lg: 'row',
                                         }}
                                       >
-                                        {({ field, form }: any) => (
-                                          <FormControl isRequired w={'100%'}>
-                                            <FormLabel>Location</FormLabel>
-                                            <Input
-                                              defaultValue={event.location}
-                                              {...field}
-                                            />
-                                          </FormControl>
-                                        )}
-                                      </Field>
-                                      <Field
-                                        name={`reoccuringEvents[${index}].when`}
-                                        validate={(value: string) => {
-                                          let error;
-                                          if (!value) {
-                                            error = 'When is required';
-                                          }
-                                          return error;
+                                        <Field
+                                          name={`reoccuringEvents[${index}].location`}
+                                          validate={(value: string) => {
+                                            let error;
+                                            if (!value) {
+                                              error = 'Location is required';
+                                            }
+                                            return error;
+                                          }}
+                                        >
+                                          {({ field, form }: any) => (
+                                            <FormControl isRequired w={'100%'}>
+                                              <FormLabel>Location</FormLabel>
+                                              <Input
+                                                defaultValue={event.location}
+                                                {...field}
+                                              />
+                                            </FormControl>
+                                          )}
+                                        </Field>
+                                        <Field
+                                          name={`reoccuringEvents[${index}].time`}
+                                          validate={(value: string) => {
+                                            let error;
+                                            if (!value) {
+                                              error = 'Time is required';
+                                            }
+                                            return error;
+                                          }}
+                                        >
+                                          {({ field, form }: any) => (
+                                            <FormControl
+                                              isRequired
+                                              w={{
+                                                base: '100%',
+                                                md: '30%',
+                                                lg: '30%',
+                                              }}
+                                            >
+                                              <FormLabel>Time</FormLabel>
+                                              <Input
+                                                defaultValue={event.time}
+                                                {...field}
+                                              />
+                                            </FormControl>
+                                          )}
+                                        </Field>
+                                      </Stack>
+                                      <Stack
+                                        direction={{
+                                          base: 'column',
+                                          md: 'row',
+                                          lg: 'row',
                                         }}
                                       >
-                                        {({ field, form }: any) => (
-                                          <FormControl isRequired w={'100%'}>
-                                            <FormLabel>When</FormLabel>
-                                            <Input
-                                              defaultValue={event.when}
-                                              {...field}
-                                            />
-                                          </FormControl>
-                                        )}
-                                      </Field>
-                                      <Field
-                                        name={`reoccuringEvents[${index}].date`}
-                                        validate={(value: string) => {
-                                          let error;
-                                          if (!value) {
-                                            error = 'Date is required';
-                                          }
-                                          return error;
-                                        }}
-                                      >
-                                        {({ field, form }: any) => (
-                                          <FormControl isRequired w={'100%'}>
-                                            <FormLabel>Date</FormLabel>
-                                            <Input
-                                              defaultValue={event.date}
-                                              {...field}
-                                            />
-                                          </FormControl>
-                                        )}
-                                      </Field>
-                                      <Field
-                                        name={`reoccuringEvents[${index}].time`}
-                                        validate={(value: string) => {
-                                          let error;
-                                          if (!value) {
-                                            error = 'Time is required';
-                                          }
-                                          return error;
-                                        }}
-                                      >
-                                        {({ field, form }: any) => (
-                                          <FormControl isRequired w={'100%'}>
-                                            <FormLabel>Time</FormLabel>
-                                            <Input
-                                              defaultValue={event.time}
-                                              {...field}
-                                            />
-                                          </FormControl>
-                                        )}
-                                      </Field>
+                                        <Field
+                                          name={`reoccuringEvents[${index}].when`}
+                                          validate={(value: string) => {
+                                            let error;
+                                            if (!value) {
+                                              error = 'When is required';
+                                            }
+                                            return error;
+                                          }}
+                                        >
+                                          {({ field, form }: any) => (
+                                            <FormControl isRequired w={'100%'}>
+                                              <FormLabel>When</FormLabel>
+                                              <Input
+                                                defaultValue={event.when}
+                                                {...field}
+                                              />
+                                            </FormControl>
+                                          )}
+                                        </Field>
+                                        <Field
+                                          name={`reoccuringEvents[${index}].date`}
+                                          validate={(value: string) => {
+                                            let error;
+                                            if (!value) {
+                                              error = 'Date is required';
+                                            }
+                                            return error;
+                                          }}
+                                        >
+                                          {({ field, form }: any) => (
+                                            <FormControl isRequired w={'100%'}>
+                                              <FormLabel>Date</FormLabel>
+                                              <Input
+                                                defaultValue={event.date}
+                                                {...field}
+                                              />
+                                            </FormControl>
+                                          )}
+                                        </Field>
+                                      </Stack>
                                     </AccordionPanel>
                                   </AccordionItem>
                                 ))}
@@ -612,7 +641,13 @@ const EditClubModal = ({ isOpen, onClose, club, user, update }: Params) => {
                                           <DeleteIcon />
                                         </Button>
                                       </Box>
-                                      <Stack direction={'row'}>
+                                      <Stack
+                                        direction={{
+                                          base: 'column',
+                                          md: 'row',
+                                          lg: 'row',
+                                        }}
+                                      >
                                         <Field
                                           name={`futureEvents[${index}].title`}
                                           validate={(value: string) => {
@@ -697,58 +732,64 @@ const EditClubModal = ({ isOpen, onClose, club, user, update }: Params) => {
                                           </FormControl>
                                         )}
                                       </Field>
-                                      <Field
-                                        name={`futureEvents[${index}].date`}
-                                        validate={(value: string) => {
-                                          let error;
-                                          if (!value) {
-                                            error = 'Date is required';
-                                          }
-                                          return error;
+                                      <Stack
+                                        direction={{
+                                          base: 'column',
+                                          md: 'row',
+                                          lg: 'row',
                                         }}
                                       >
-                                        {({ field, form }: any) => (
-                                          <FormControl isRequired w={'100%'}>
-                                            <FormLabel>Date</FormLabel>
-                                            {/* <Input
-                                              defaultValue={event.date}
-                                              {...field}
-                                            /> */}
-
-                                            <DatePicker
-                                              wrapperClassName='datePickerCSS'
-                                              selected={
-                                                (field.value &&
-                                                  new Date(field.value)) ||
-                                                null
-                                              }
-                                              onChange={(val) => {
-                                                setFieldValue(field.name, val);
-                                              }}
-                                            />
-                                          </FormControl>
-                                        )}
-                                      </Field>
-                                      <Field
-                                        name={`futureEvents[${index}].time`}
-                                        validate={(value: string) => {
-                                          let error;
-                                          if (!value) {
-                                            error = 'Time is required';
-                                          }
-                                          return error;
-                                        }}
-                                      >
-                                        {({ field, form }: any) => (
-                                          <FormControl isRequired w={'100%'}>
-                                            <FormLabel>Time</FormLabel>
-                                            <Input
-                                              defaultValue={event.time}
-                                              {...field}
-                                            />
-                                          </FormControl>
-                                        )}
-                                      </Field>
+                                        <Field
+                                          name={`futureEvents[${index}].date`}
+                                          validate={(value: string) => {
+                                            let error;
+                                            if (!value) {
+                                              error = 'Date is required';
+                                            }
+                                            return error;
+                                          }}
+                                        >
+                                          {({ field, form }: any) => (
+                                            <FormControl isRequired w={'100%'}>
+                                              <FormLabel>Date</FormLabel>
+                                              <DatePicker
+                                                wrapperClassName='datePickerCSS'
+                                                selected={
+                                                  (field.value &&
+                                                    new Date(field.value)) ||
+                                                  null
+                                                }
+                                                onChange={(val) => {
+                                                  setFieldValue(
+                                                    field.name,
+                                                    val
+                                                  );
+                                                }}
+                                              />
+                                            </FormControl>
+                                          )}
+                                        </Field>
+                                        <Field
+                                          name={`futureEvents[${index}].time`}
+                                          validate={(value: string) => {
+                                            let error;
+                                            if (!value) {
+                                              error = 'Time is required';
+                                            }
+                                            return error;
+                                          }}
+                                        >
+                                          {({ field, form }: any) => (
+                                            <FormControl isRequired w={'100%'}>
+                                              <FormLabel>Time</FormLabel>
+                                              <Input
+                                                defaultValue={event.time}
+                                                {...field}
+                                              />
+                                            </FormControl>
+                                          )}
+                                        </Field>
+                                      </Stack>
                                     </AccordionPanel>
                                   </AccordionItem>
                                 ))}

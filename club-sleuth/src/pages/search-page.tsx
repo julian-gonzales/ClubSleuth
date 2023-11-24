@@ -82,7 +82,7 @@ const SearchPage = () => {
           Sort By <ChevronDownIcon ml={3} />
         </Button> */}
       </Flex>
-      <Box height={'74vh'} w={'60%'} m={'auto'} overflow={'auto'}>
+      <Box height={'74vh'} w={{base: '100%', lg: '60%'}} m={'auto'} overflow={'auto'}>
         <Box>
           {!loading && clubs !== undefined && clubs.length > 0 ? (
             clubs.map((club: Club) => (
