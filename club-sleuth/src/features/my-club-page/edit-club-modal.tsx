@@ -33,6 +33,9 @@ import {
 } from '../../api/club-slice';
 import { AddIcon, DeleteIcon } from '@chakra-ui/icons';
 import { User } from '../../domain/user';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import './date-css.css';
 
 type Params = {
   isOpen: any;
@@ -105,7 +108,7 @@ const EditClubModal = ({ isOpen, onClose, club, user, update }: Params) => {
             }
           }}
         >
-          {({ values, handleSubmit, errors, isValid }) => (
+          {({ values, handleSubmit, isValid, setFieldValue }) => (
             <Form>
               <ModalContent>
                 <ModalHeader textAlign={'center'}>
@@ -707,9 +710,21 @@ const EditClubModal = ({ isOpen, onClose, club, user, update }: Params) => {
                                         {({ field, form }: any) => (
                                           <FormControl isRequired w={'100%'}>
                                             <FormLabel>Date</FormLabel>
-                                            <Input
+                                            {/* <Input
                                               defaultValue={event.date}
                                               {...field}
+                                            /> */}
+
+                                            <DatePicker
+                                              wrapperClassName='datePickerCSS'
+                                              selected={
+                                                (field.value &&
+                                                  new Date(field.value)) ||
+                                                null
+                                              }
+                                              onChange={(val) => {
+                                                setFieldValue(field.name, val);
+                                              }}
                                             />
                                           </FormControl>
                                         )}
