@@ -16,6 +16,7 @@ export type Club = {
   participation: string;
   lastUpdated?: Date;
   user: string;
+  website?: string;
 };
 
 export type ReoccuringEvents = {

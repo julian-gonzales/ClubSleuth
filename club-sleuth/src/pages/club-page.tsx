@@ -9,6 +9,7 @@ import ClubBadges from '../features/common/club-badges';
 import { FutureEvents, ReoccuringEvents } from '../domain/club';
 import CurrentEvents from '../features/club-page/current-events';
 import FutureEventsBox from '../features/club-page/future-events';
+import { ExternalLinkIcon } from '@chakra-ui/icons';
 
 const ClubPage = () => {
   const { id } = useParams();
@@ -19,9 +20,24 @@ const ClubPage = () => {
     <>
       <Header city={changeWordsToUpperCase(city)}></Header>
       {!loading && club && (
-        <Box w={{ base: '95%', lg: '60%' }} m={'auto'} mt={20}>
+        <Box
+          w={{ base: '95%', lg: '60%' }}
+          m={'auto'}
+          mt={{ base: 5, md: 20, lg: 20 }}
+        >
           <Heading fontSize={'6xl'}>{club.name}</Heading>
           <ClubBadges club={club} />
+          <Box mb={3}>
+            <a
+              target='_blank'
+              rel='noopener noreferrer'
+              href={`${club.website}`}
+            >
+              <Text fontSize={'18px'} fontWeight={'500'}>
+                <ExternalLinkIcon /> {club.website}
+              </Text>
+            </a>
+          </Box>
           <Box mb={10}>
             <Text fontSize={'24px'} fontWeight={'medium'}>
               {club.description}
@@ -40,7 +56,7 @@ const ClubPage = () => {
                 <Stack
                   direction={{ base: 'column', md: 'row', lg: 'row' }}
                   mt={3}
-                  alignItems={{base: 'center', md: 'left', lg: 'left'}}
+                  alignItems={{ base: 'center', md: 'left', lg: 'left' }}
                 >
                   {club.reoccuringEvents.map((event: ReoccuringEvents) => (
                     <CurrentEvents event={event} />
@@ -50,13 +66,17 @@ const ClubPage = () => {
             )}
           {club.futureEvents !== undefined && club.futureEvents.length > 0 && (
             <Box mt={10} mb={5}>
-              <Text fontSize={'26px'} fontWeight={'semibold'} textAlign={{ base: 'center', md: 'left', lg: 'left' }}>
+              <Text
+                fontSize={'26px'}
+                fontWeight={'semibold'}
+                textAlign={{ base: 'center', md: 'left', lg: 'left' }}
+              >
                 FUTURE ACTIVITIES
               </Text>
               <Stack
                 direction={{ base: 'column', md: 'row', lg: 'row' }}
                 mt={3}
-                alignItems={{base: 'center', md: 'left', lg: 'left'}}
+                alignItems={{ base: 'center', md: 'left', lg: 'left' }}
               >
                 {club.futureEvents.map((event: FutureEvents) => (
                   <FutureEventsBox event={event} />

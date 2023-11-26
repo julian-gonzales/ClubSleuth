@@ -30,6 +30,7 @@ const SearchPage = () => {
     city,
   });
   let clubs = dbClubs;
+  console.log(clubs);
   clubs = useMemo(() => {
     const re = RegExp(`.*${str.toLowerCase().split('').join('.*')}.*`);
     if (str.length > 3) {

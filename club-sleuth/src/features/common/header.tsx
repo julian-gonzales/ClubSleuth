@@ -121,11 +121,11 @@ export default function Header({ city, searching }: HeaderProps) {
                       as={"a"}
                       fontSize={"lg"}
                       fontWeight={600}
-                      variant={"link"}
-                      color={"white"}
                       _hover={{
                         bg: "blackAlpha",
                       }}
+                      backgroundColor={'transparent'}
+                      color={'white'}
                     >
                       Sign In
                     </Button>

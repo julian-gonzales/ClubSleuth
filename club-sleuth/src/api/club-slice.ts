@@ -30,6 +30,7 @@ export const clubSlice = apiSlice.injectEndpoints({
         participation,
         reoccuringEvents,
         futureEvents,
+        website,
       }) => ({
         url: `user/update-club`,
         method: 'PUT',
@@ -44,6 +45,7 @@ export const clubSlice = apiSlice.injectEndpoints({
           participation,
           reoccuringEvents,
           futureEvents,
+          website,
         },
       }),
       transformResponse: (responseData: Club) => responseData,
@@ -61,6 +63,7 @@ export const clubSlice = apiSlice.injectEndpoints({
         participation,
         reoccuringEvents,
         futureEvents,
+        website,
       }) => ({
         url: `users/create-club`,
         method: 'POST',
@@ -75,6 +78,7 @@ export const clubSlice = apiSlice.injectEndpoints({
           participation,
           reoccuringEvents,
           futureEvents,
+          website,
         },
       }),
       transformResponse: (responseData: Club) => responseData,

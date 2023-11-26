@@ -46,6 +46,7 @@ const UserClubs = () => {
     active: false,
     participation: 'Casual',
     user: user._id,
+    website: ''
   };
   const [deleteClub] = useDeleteClubMutation();
   const [clubToEdit, setClubToEdit] = useState<Club>(defaultClub);

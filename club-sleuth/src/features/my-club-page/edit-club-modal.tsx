@@ -67,6 +67,7 @@ const EditClubModal = ({ isOpen, onClose, club, user, update }: Params) => {
             province: club.province,
             reoccuringEvents: club.reoccuringEvents,
             futureEvents: club.futureEvents,
+            website: club.website,
           }}
           onSubmit={async (values) => {
             if (update) {
@@ -81,6 +82,7 @@ const EditClubModal = ({ isOpen, onClose, club, user, update }: Params) => {
                 participation: values.participation,
                 reoccuringEvents: values.reoccuringEvents,
                 futureEvents: values.futureEvents,
+                website: values.website,
               })
                 .unwrap()
                 .then(() => {
@@ -99,6 +101,7 @@ const EditClubModal = ({ isOpen, onClose, club, user, update }: Params) => {
                 participation: values.participation,
                 reoccuringEvents: values.reoccuringEvents,
                 futureEvents: values.futureEvents,
+                website: values.website,
               })
                 .unwrap()
                 .then(() => {
@@ -188,151 +191,168 @@ const EditClubModal = ({ isOpen, onClose, club, user, update }: Params) => {
                       </FormControl>
                     )}
                   </Field>
-                  <Stack direction={'row'} mt={5}>
-                    <Field
-                      name='province'
-                      validate={(value: string) => {
-                        let error;
-                        if (!value) {
-                          error = 'Province is required';
-                        }
-                        return error;
-                      }}
-                    >
-                      {({ field, form }: any) => (
-                        <FormControl
-                          isInvalid={
-                            form.errors.province && form.touched.province
+                  <Stack
+                    direction={{ base: 'column', md: 'row', lg: 'row' }}
+                    mt={5}
+                    
+                  >
+                    <Stack direction={'row'}>
+                      <Field
+                        name='province'
+                        validate={(value: string) => {
+                          let error;
+                          if (!value) {
+                            error = 'Province is required';
                           }
-                          isRequired
-                          w={'50%'}
-                        >
-                          <FormLabel>Province</FormLabel>
-                          <Select
-                            backgroundColor={'white'}
-                            width={'fit-content'}
-                            p={0}
-                            isRequired={true}
-                            {...field}
+                          return error;
+                        }}
+                      >
+                        {({ field, form }: any) => (
+                          <FormControl
+                            isInvalid={
+                              form.errors.province && form.touched.province
+                            }
+                            isRequired
+                            w={'fit-content'}
                           >
-                            {Object.keys(PROVINCES).map((key) => (
-                              <option value={key} key={key}>
-                                {key}
+                            <FormLabel>Province</FormLabel>
+                            <Select
+                              backgroundColor={'white'}
+                              p={0}
+                              isRequired={true}
+                              {...field}
+                            >
+                              {Object.keys(PROVINCES).map((key) => (
+                                <option value={key} key={key}>
+                                  {key}
+                                </option>
+                              ))}
+                            </Select>
+                            <FormErrorMessage>
+                              {form.errors.province}
+                            </FormErrorMessage>
+                          </FormControl>
+                        )}
+                      </Field>
+                      <Field
+                        name='city'
+                        validate={(value: string) => {
+                          let error;
+                          if (!value) {
+                            error = 'City is required';
+                          }
+                          return error;
+                        }}
+                      >
+                        {({ field, form }: any) => (
+                          <FormControl
+                            isInvalid={form.errors.city && form.touched.city}
+                            isRequired
+                            w={'250px'}
+                          >
+                            <FormLabel>City</FormLabel>
+                            <Input {...field} />
+                            <FormErrorMessage>
+                              {form.errors.city}
+                            </FormErrorMessage>
+                          </FormControl>
+                        )}
+                      </Field>
+                    </Stack>
+                    <Stack direction={'row'}>
+                      <Field
+                        name='members'
+                        validate={(value: string) => {
+                          let error;
+                          if (!value) {
+                            error = 'Number of members is required';
+                          }
+                          return error;
+                        }}
+                      >
+                        {({ field, form }: any) => (
+                          <FormControl
+                            isInvalid={
+                              form.errors.members && form.touched.members
+                            }
+                            w={'fit-content'}
+                            isRequired
+                          >
+                            <FormLabel>Members</FormLabel>
+                            <Select
+                              backgroundColor={'white'}
+                              width={'fit-content'}
+                              p={0}
+                              isRequired={true}
+                              {...field}
+                            >
+                              <option value={'0-10'} key={'0-10'}>
+                                0-10
                               </option>
-                            ))}
-                          </Select>
-                          <FormErrorMessage>
-                            {form.errors.province}
-                          </FormErrorMessage>
-                        </FormControl>
-                      )}
-                    </Field>
-                    <Field
-                      name='city'
-                      validate={(value: string) => {
-                        let error;
-                        if (!value) {
-                          error = 'City is required';
-                        }
-                        return error;
-                      }}
-                    >
+                              <option value={'10-20'} key={'10-20'}>
+                                10-20
+                              </option>
+                              <option value={'20+'} key={'20+'}>
+                                20+
+                              </option>
+                            </Select>
+                            <FormErrorMessage>
+                              {form.errors.members}
+                            </FormErrorMessage>
+                          </FormControl>
+                        )}
+                      </Field>
+                      <Field
+                        name='participation'
+                        validate={(value: string) => {
+                          let error;
+                          if (!value) {
+                            error = 'Commitment level is required';
+                          }
+                          return error;
+                        }}
+                      >
+                        {({ field, form }: any) => (
+                          <FormControl
+                            isInvalid={
+                              form.errors.participation &&
+                              form.touched.participation
+                            }
+                            w={'fit-content'}
+                            isRequired
+                          >
+                            <FormLabel>Commitment level</FormLabel>
+                            <Select
+                              backgroundColor={'white'}
+                              p={0}
+                              isRequired={true}
+                              {...field}
+                            >
+                              <option value={'Casual'} key={'casual'}>
+                                Casual
+                              </option>
+                              <option
+                                value={'Intermediate'}
+                                key={'intermediate'}
+                              >
+                                Intermediate
+                              </option>
+                              <option value={'Priority'} key={'priority'}>
+                                Priority
+                              </option>
+                            </Select>
+                            <FormErrorMessage>
+                              {form.errors.members}
+                            </FormErrorMessage>
+                          </FormControl>
+                        )}
+                      </Field>
+                    </Stack>
+                    <Field name='website'>
                       {({ field, form }: any) => (
-                        <FormControl
-                          isInvalid={form.errors.city && form.touched.city}
-                          isRequired
-                          w={'250px'}
-                        >
-                          <FormLabel>City</FormLabel>
+                        <FormControl w={'-webkit-max-content'}>
+                          <FormLabel>Website</FormLabel>
                           <Input {...field} />
-                          <FormErrorMessage>
-                            {form.errors.city}
-                          </FormErrorMessage>
-                        </FormControl>
-                      )}
-                    </Field>
-                  </Stack>
-                  <Stack direction={'row'} mt={5}>
-                    <Field
-                      name='members'
-                      validate={(value: string) => {
-                        let error;
-                        if (!value) {
-                          error = 'Number of members is required';
-                        }
-                        return error;
-                      }}
-                    >
-                      {({ field, form }: any) => (
-                        <FormControl
-                          isInvalid={
-                            form.errors.members && form.touched.members
-                          }
-                          isRequired
-                        >
-                          <FormLabel>Number of members</FormLabel>
-                          <Select
-                            backgroundColor={'white'}
-                            width={'fit-content'}
-                            p={0}
-                            isRequired={true}
-                            {...field}
-                          >
-                            <option value={'0-10'} key={'0-10'}>
-                              0-10
-                            </option>
-                            <option value={'10-20'} key={'10-20'}>
-                              10-20
-                            </option>
-                            <option value={'20+'} key={'20+'}>
-                              20+
-                            </option>
-                          </Select>
-                          <FormErrorMessage>
-                            {form.errors.members}
-                          </FormErrorMessage>
-                        </FormControl>
-                      )}
-                    </Field>
-                    <Field
-                      name='participation'
-                      validate={(value: string) => {
-                        let error;
-                        if (!value) {
-                          error = 'Commitment level is required';
-                        }
-                        return error;
-                      }}
-                    >
-                      {({ field, form }: any) => (
-                        <FormControl
-                          isInvalid={
-                            form.errors.participation &&
-                            form.touched.participation
-                          }
-                          isRequired
-                        >
-                          <FormLabel>Commitment level</FormLabel>
-                          <Select
-                            backgroundColor={'white'}
-                            width={'fit-content'}
-                            p={0}
-                            isRequired={true}
-                            {...field}
-                          >
-                            <option value={'Casual'} key={'casual'}>
-                              Casual
-                            </option>
-                            <option value={'Intermediate'} key={'intermediate'}>
-                              Intermediate
-                            </option>
-                            <option value={'Priority'} key={'priority'}>
-                              Priority
-                            </option>
-                          </Select>
-                          <FormErrorMessage>
-                            {form.errors.members}
-                          </FormErrorMessage>
                         </FormControl>
                       )}
                     </Field>
