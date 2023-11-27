@@ -15,7 +15,7 @@ const ClubPage = () => {
   const { id } = useParams();
   const city = useSelector((state: RootState) => state.city.value);
   const { data: club, isLoading: loading } = useGetSingleClubQueryQuery({ id });
-
+  console.log(club);
   return (
     <>
       <Header city={changeWordsToUpperCase(city)}></Header>
@@ -33,7 +33,7 @@ const ClubPage = () => {
               rel='noopener noreferrer'
               href={`${club.website}`}
             >
-              <Text fontSize={'18px'} fontWeight={'500'}>
+              <Text fontSize={'18px'} fontWeight={'500'} color={'grey'}>
                 <ExternalLinkIcon /> {club.website}
               </Text>
             </a>
@@ -51,7 +51,7 @@ const ClubPage = () => {
                   fontWeight={'semibold'}
                   textAlign={{ base: 'center', md: 'left', lg: 'left' }}
                 >
-                  CURRENT ACTIVITIES
+                  REGULAR PROGRAMS
                 </Text>
                 <Stack
                   direction={{ base: 'column', md: 'row', lg: 'row' }}

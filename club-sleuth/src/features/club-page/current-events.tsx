@@ -34,6 +34,7 @@ const CurrentEvents = ({ event }: CurrentEventsProp) => {
                 {event.when}: {event.date} {event.time}
               </Text>
               <Text>Location: {event.location}</Text>
+              {event.fee !== 0 && <Text>Fee: ${event.fee}</Text>}
               <Text mt={5}>{event.description}</Text>
             </ModalBody>
             <ModalFooter>

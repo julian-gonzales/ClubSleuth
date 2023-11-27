@@ -27,6 +27,7 @@ export type ReoccuringEvents = {
   description: string;
   title: string;
   memberOnly: boolean;
+  fee: number;
 };
 export type FutureEvents = {
   date: string;

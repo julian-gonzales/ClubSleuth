@@ -9,6 +9,7 @@ import {
   CardBody,
   CardHeader,
   Heading,
+  Hide,
   Modal,
   ModalContent,
   ModalFooter,
@@ -46,7 +47,7 @@ const UserClubs = () => {
     active: false,
     participation: 'Casual',
     user: user._id,
-    website: ''
+    website: '',
   };
   const [deleteClub] = useDeleteClubMutation();
   const [clubToEdit, setClubToEdit] = useState<Club>(defaultClub);
@@ -90,7 +91,7 @@ const UserClubs = () => {
             <AddIcon />
           </Button>
         </Box>
-        <Card maxH={'100%'} w={'80%'} shadow={'2xl'} m={'auto'} mb={10}>
+        <Card maxH={'100%'} w={{base: '95%', md: '80%'}} shadow={'2xl'} m={'auto'} mb={10}>
           <CardHeader textAlign={'center'}>
             <Heading size={'lg'}>CURRENT CLUBS</Heading>
           </CardHeader>
@@ -100,11 +101,13 @@ const UserClubs = () => {
                 <Thead>
                   <Tr>
                     <Th fontWeight={'900'}>Name</Th>
-                    <Th fontWeight={'900'}>Province</Th>
-                    <Th fontWeight={'900'}>City</Th>
-                    <Th fontWeight={'900'}>Members</Th>
-                    <Th fontWeight={'900'}>Commitment</Th>
-                    <Th fontWeight={'900'}>Active</Th>
+                    <Hide below='md'>
+                      <Th fontWeight={'900'}>Province</Th>
+                      <Th fontWeight={'900'}>City</Th>
+                      <Th fontWeight={'900'}>Members</Th>
+                      <Th fontWeight={'900'}>Commitment</Th>
+                      <Th fontWeight={'900'}>Active</Th>
+                    </Hide>
                     <Th fontWeight={'900'}></Th>
                   </Tr>
                 </Thead>
@@ -115,23 +118,25 @@ const UserClubs = () => {
                       <>
                         <Tr key={club._id}>
                           <Td>{club.name}</Td>
-                          <Td>{club.province}</Td>
-                          <Td>{club.city}</Td>
-                          <Td>{club.members}</Td>
-                          <Td>{club.participation}</Td>
-                          <Td>
-                            {' '}
-                            <Badge
-                              colorScheme={club.active ? 'green' : 'gray'}
-                              h={'fit-content'}
-                              fontWeight={'bold'}
-                              borderRadius={5}
-                              mt={'auto'}
-                              mb={'auto'}
-                            >
-                              {club.active ? 'Active' : 'inactive'}
-                            </Badge>
-                          </Td>
+                          <Hide below='md'>
+                            <Td>{club.province}</Td>
+                            <Td>{club.city}</Td>
+                            <Td>{club.members}</Td>
+                            <Td>{club.participation}</Td>
+                            <Td>
+                              {' '}
+                              <Badge
+                                colorScheme={club.active ? 'green' : 'gray'}
+                                h={'fit-content'}
+                                fontWeight={'bold'}
+                                borderRadius={5}
+                                mt={'auto'}
+                                mb={'auto'}
+                              >
+                                {club.active ? 'Active' : 'inactive'}
+                              </Badge>
+                            </Td>
+                          </Hide>
                           <Td>
                             <Button
                               leftIcon={<EditIcon />}
@@ -141,7 +146,9 @@ const UserClubs = () => {
                                 handleClubInfoClick(club);
                               }}
                             >
-                              Edit
+                              <Hide below='md'>
+                                <Box>Edit</Box>
+                              </Hide>
                             </Button>
                             <Button
                               ml={5}
@@ -169,10 +176,10 @@ const UserClubs = () => {
                                       Close
                                     </Button>
                                     <Button
-                                      bg={"black"}
-                                      color={"white"}
+                                      bg={'black'}
+                                      color={'white'}
                                       _hover={{
-                                        bg: "grey",
+                                        bg: 'grey',
                                       }}
                                       ml={3}
                                       type='submit'

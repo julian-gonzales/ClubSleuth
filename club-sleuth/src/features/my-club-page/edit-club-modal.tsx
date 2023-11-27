@@ -194,7 +194,6 @@ const EditClubModal = ({ isOpen, onClose, club, user, update }: Params) => {
                   <Stack
                     direction={{ base: 'column', md: 'row', lg: 'row' }}
                     mt={5}
-                    
                   >
                     <Stack direction={'row'}>
                       <Field
@@ -385,6 +384,7 @@ const EditClubModal = ({ isOpen, onClose, club, user, update }: Params) => {
                                         time: '',
                                         location: '',
                                         memberOnly: false,
+                                        fee: 0,
                                       });
                                     }}
                                   >
@@ -482,7 +482,11 @@ const EditClubModal = ({ isOpen, onClose, club, user, update }: Params) => {
                                         }}
                                       >
                                         {({ field, form }: any) => (
-                                          <FormControl isRequired w={'100%'}>
+                                          <FormControl
+                                            isRequired
+                                            w={'100%'}
+                                            mt={3}
+                                          >
                                             <FormLabel>Description</FormLabel>
                                             <Textarea
                                               defaultValue={event.description}
@@ -497,6 +501,7 @@ const EditClubModal = ({ isOpen, onClose, club, user, update }: Params) => {
                                           md: 'row',
                                           lg: 'row',
                                         }}
+                                        mt={3}
                                       >
                                         <Field
                                           name={`reoccuringEvents[${index}].location`}
@@ -545,6 +550,26 @@ const EditClubModal = ({ isOpen, onClose, club, user, update }: Params) => {
                                             </FormControl>
                                           )}
                                         </Field>
+                                        <Field
+                                          name={`reoccuringEvents[${index}].fee`}
+                                        >
+                                          {({ field, form }: any) => (
+                                            <FormControl
+                                              isRequired
+                                              w={{
+                                                base: '100%',
+                                                md: 'fit-content',
+                                                lg: 'fit-content',
+                                              }}
+                                            >
+                                              <FormLabel>Fee</FormLabel>
+                                              <Input
+                                                defaultValue={event.fee}
+                                                {...field}
+                                              />
+                                            </FormControl>
+                                          )}
+                                        </Field>
                                       </Stack>
                                       <Stack
                                         direction={{
@@ -552,6 +577,7 @@ const EditClubModal = ({ isOpen, onClose, club, user, update }: Params) => {
                                           md: 'row',
                                           lg: 'row',
                                         }}
+                                        mt={3}
                                       >
                                         <Field
                                           name={`reoccuringEvents[${index}].when`}
@@ -723,7 +749,11 @@ const EditClubModal = ({ isOpen, onClose, club, user, update }: Params) => {
                                         }}
                                       >
                                         {({ field, form }: any) => (
-                                          <FormControl isRequired w={'100%'}>
+                                          <FormControl
+                                            isRequired
+                                            w={'100%'}
+                                            mt={3}
+                                          >
                                             <FormLabel>Description</FormLabel>
                                             <Textarea
                                               defaultValue={event.description}
@@ -732,26 +762,62 @@ const EditClubModal = ({ isOpen, onClose, club, user, update }: Params) => {
                                           </FormControl>
                                         )}
                                       </Field>
-                                      <Field
-                                        name={`futureEvents[${index}].location`}
-                                        validate={(value: string) => {
-                                          let error;
-                                          if (!value) {
-                                            error = 'Location is required';
-                                          }
-                                          return error;
+                                      <Stack
+                                        direction={{
+                                          base: 'column',
+                                          md: 'row',
+                                          lg: 'row',
                                         }}
+                                        mt={3}
                                       >
-                                        {({ field, form }: any) => (
-                                          <FormControl isRequired w={'100%'}>
-                                            <FormLabel>Location</FormLabel>
-                                            <Input
-                                              defaultValue={event.location}
-                                              {...field}
-                                            />
-                                          </FormControl>
-                                        )}
-                                      </Field>
+                                        <Field
+                                          name={`futureEvents[${index}].location`}
+                                          validate={(value: string) => {
+                                            let error;
+                                            if (!value) {
+                                              error = 'Location is required';
+                                            }
+                                            return error;
+                                          }}
+                                        >
+                                          {({ field, form }: any) => (
+                                            <FormControl isRequired w={'100%'}>
+                                              <FormLabel>Location</FormLabel>
+                                              <Input
+                                                defaultValue={event.location}
+                                                {...field}
+                                              />
+                                            </FormControl>
+                                          )}
+                                        </Field>
+                                        <Field
+                                          name={`futureEvents[${index}].time`}
+                                          validate={(value: string) => {
+                                            let error;
+                                            if (!value) {
+                                              error = 'Time is required';
+                                            }
+                                            return error;
+                                          }}
+                                        >
+                                          {({ field, form }: any) => (
+                                            <FormControl
+                                              isRequired
+                                              w={{
+                                                base: '100%',
+                                                md: '30%',
+                                                lg: '30%',
+                                              }}
+                                            >
+                                              <FormLabel>Time</FormLabel>
+                                              <Input
+                                                defaultValue={event.time}
+                                                {...field}
+                                              />
+                                            </FormControl>
+                                          )}
+                                        </Field>
+                                      </Stack>
                                       <Stack
                                         direction={{
                                           base: 'column',
@@ -770,7 +836,11 @@ const EditClubModal = ({ isOpen, onClose, club, user, update }: Params) => {
                                           }}
                                         >
                                           {({ field, form }: any) => (
-                                            <FormControl isRequired w={'100%'}>
+                                            <FormControl
+                                              isRequired
+                                              w={'100%'}
+                                              mt={3}
+                                            >
                                               <FormLabel>Date</FormLabel>
                                               <DatePicker
                                                 wrapperClassName='datePickerCSS'
@@ -785,26 +855,6 @@ const EditClubModal = ({ isOpen, onClose, club, user, update }: Params) => {
                                                     val
                                                   );
                                                 }}
-                                              />
-                                            </FormControl>
-                                          )}
-                                        </Field>
-                                        <Field
-                                          name={`futureEvents[${index}].time`}
-                                          validate={(value: string) => {
-                                            let error;
-                                            if (!value) {
-                                              error = 'Time is required';
-                                            }
-                                            return error;
-                                          }}
-                                        >
-                                          {({ field, form }: any) => (
-                                            <FormControl isRequired w={'100%'}>
-                                              <FormLabel>Time</FormLabel>
-                                              <Input
-                                                defaultValue={event.time}
-                                                {...field}
                                               />
                                             </FormControl>
                                           )}
