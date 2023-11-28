@@ -27,17 +27,19 @@ const ClubPage = () => {
         >
           <Heading fontSize={'6xl'}>{club.name}</Heading>
           <ClubBadges club={club} />
-          <Box mb={3}>
-            <a
-              target='_blank'
-              rel='noopener noreferrer'
-              href={`${club.website}`}
-            >
-              <Text fontSize={'18px'} fontWeight={'500'} color={'grey'}>
-                <ExternalLinkIcon /> {club.website}
-              </Text>
-            </a>
-          </Box>
+          {club.website && (
+            <Box mb={3}>
+              <a
+                target='_blank'
+                rel='noopener noreferrer'
+                href={`${club.website}`}
+              >
+                <Text fontSize={'18px'} fontWeight={'500'} color={'grey'}>
+                  <ExternalLinkIcon /> {club.website}
+                </Text>
+              </a>
+            </Box>
+          )}
           <Box mb={10}>
             <Text fontSize={'24px'} fontWeight={'medium'}>
               {club.description}
