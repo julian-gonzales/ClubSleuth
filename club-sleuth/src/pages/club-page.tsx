@@ -18,7 +18,7 @@ const ClubPage = () => {
   console.log(club);
   return (
     <>
-      <Header city={changeWordsToUpperCase(city)}></Header>
+      <Header city={changeWordsToUpperCase(city)} searching={false}></Header>
       {!loading && club && (
         <Box
           w={{ base: '95%', lg: '60%' }}

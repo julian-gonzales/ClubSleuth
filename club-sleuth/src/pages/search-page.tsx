@@ -45,12 +45,15 @@ const SearchPage = () => {
 
   return (
     <>
-      <Header city={`${changeWordsToUpperCase(city)}`}></Header>
+      <Header
+        city={`${changeWordsToUpperCase(city)}`}
+        searching={true}
+      ></Header>
       <Flex
         verticalAlign={'middle'}
         w={'60%'}
         m={'auto'}
-        mt={20}
+        mt={{ base: 5, md: 20, lg: 20 }}
         visibility={
           clubs !== undefined && clubs.length > 0 ? 'visible' : 'hidden'
         }
@@ -83,7 +86,12 @@ const SearchPage = () => {
           Sort By <ChevronDownIcon ml={3} />
         </Button> */}
       </Flex>
-      <Box height={'74vh'} w={{base: '100%', lg: '60%'}} m={'auto'} overflow={'auto'}>
+      <Box
+        height={'74vh'}
+        w={{ base: '100%', lg: '60%' }}
+        m={'auto'}
+        overflow={'auto'}
+      >
         <Box>
           {!loading && clubs !== undefined && clubs.length > 0 ? (
             clubs.map((club: Club) => (

@@ -28,7 +28,6 @@ export default function Header({ city, searching }: HeaderProps) {
   const user = useSelector((state: RootState) => state.user.value);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  console.log(searching,city)
 
   return (
     <>
@@ -37,7 +36,7 @@ export default function Header({ city, searching }: HeaderProps) {
           <Box mt={"auto"}>
             <Stack direction={"row"}>
               <Logo></Logo>
-              {city !== "" ? (
+              {searching && city !== "" ? (
                 <Text color={"white"} mt="auto" mb="auto">
                   <Stack direction="row">
                     <Text fontWeight={"medium"}>Searching.... at</Text>
