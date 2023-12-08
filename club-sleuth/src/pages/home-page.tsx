@@ -138,7 +138,7 @@ const HomePage = () => {
           <Text
             position={'relative'}
             m={'auto'}
-            mt={{ base: 0, md: 20 }}
+            mt={{ base: 7, md: 20 }}
             w={{ base: 'none', md: '70%' }}
             fontWeight={600}
             fontSize={{ base: '20px', md: '28px' }}
